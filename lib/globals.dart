@@ -17,6 +17,11 @@ String domain = "";
 String apiURL = "https://reqres.in/api/users/2";
 String error = "";
 
+String id = "";
+String firstname = "";
+String lastname = "";
+String avatar = "";
+
 class Utility {
 
   static Future<Null> showAlertPopup(BuildContext context, String title, String detail1, String detail2) async {

@@ -155,12 +155,17 @@ class LoginPageState extends State<LoginPage> {
 //          globals.token = "" + item['id'].toString();
 ////          globals.error = "" + item['id'].toString();
 //        }
-        print(decoded["data"]['id'].toString());
-        print(decoded["data"]['first_name'].toString());
-        print(decoded["data"]['last_name'].toString());
-        print(decoded["data"]['avatar'].toString());
+        globals.id = decoded["data"]['id'].toString();
+        globals.firstname = decoded["data"]['first_name'].toString();
+        globals.lastname = decoded["data"]['last_name'].toString();
+        globals.avatar = decoded["data"]['avatar'].toString();
 
-        globals.token = "" + decoded["data"]['id'].toString();
+        print(globals.id);
+        print(globals.firstname);
+        print(globals.lastname);
+        print( globals.avatar);
+
+        globals.token = globals.id;
 
       } catch (exception) {
         print("Error Decoding Data");
