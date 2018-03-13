@@ -6,6 +6,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
+import 'globals.dart' as globals;
+import 'home.dart';
 
 void main() {
   runApp(new MaterialApp(home: new LoginPage()));
@@ -106,16 +108,16 @@ class LoginPageState extends State<LoginPage> {
   var _companycode;
   var _password;
 
-  var _token;
-
   final TextEditingController _controllerUsername = new TextEditingController();
   final TextEditingController _controllerCompanyCode = new TextEditingController();
   final TextEditingController _controllerPassword = new TextEditingController();
 
-  bool _loginButton({String name, String pass, String company}) {
-    this._username = name;
-    this._companycode = company;
-    this._password = pass;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  bool _loginReady() {
+    this._username = this._controllerUsername.text;
+    this._companycode = this._controllerCompanyCode.text;
+    this._password = this._controllerPassword.text;
 
     if(_username == "" || _companycode == "" || _password == "") {
       print("Missing Info");
@@ -125,59 +127,13 @@ class LoginPageState extends State<LoginPage> {
       print(_username);
       print(_companycode);
       print(_password);
-
       return true;
     }
   }
 
-  List data;
-  String output = "";
-  Future<String> getData(String calltypeParm, String modParm, String actionParm, String paramsParm, String fooParm) async {
-    var requestURL = "https://" + _companycode + "/API/Mobile/get_json_data.aspx?";
-    requestURL = requestURL + "calltype=" + calltypeParm;
-    requestURL = requestURL + "&mod=" + modParm;
-    requestURL = requestURL + "&?action=" + actionParm;
-    requestURL = requestURL + "&?param=" + paramsParm;
-    requestURL = requestURL + "&?foo=" + fooParm;
-    print("Request URL: " + requestURL);
-    //    requestURL = "https://jsonplaceholder.typicode.com/posts";
-
-//    var response = await http.get(
-//        Uri.encodeFull(requestURL),
-//        headers: {
-//          "Accept": "application/json"
-//        }
-//    );
-
-    var url = requestURL;
-    var httpClient = new HttpClient();
-    String result;
-    try {
-      var request = await httpClient.getUrl(Uri.parse(url));
-      var response = await request.close();
-      if (response.statusCode == HttpStatus.OK) {
-        try {
-          var json = await response.transform(UTF8.decoder).join();
-          result = json;
-          output = result;
-        } catch (exception) {
-          result = 'Error Getting Data';
-        }
-      } else {
-        result = 'Error getting IP address:\nHttp status ${response.statusCode}';
-      }
-    } catch (exception) {
-      result = 'Failed getting IP address';
-    }
-    print("Result: " + result);
-    return result;
-  }
-
-   Future<bool> loginRequest() async {
+   Future<bool> _loginRequest() async {
     String result = "";
-    if(_loginButton(name: this._controllerUsername.text,
-        company: this._controllerCompanyCode.text,
-        pass: this._controllerPassword.text)) {
+    if(_loginReady()) {
       var mapData = new Map();
       mapData["username"] = "" + _username;
       mapData["password"] = "" + _password;
@@ -188,70 +144,57 @@ class LoginPageState extends State<LoginPage> {
       encodedParams = encodedParams.replaceAll(new RegExp('@'), '%40');
       encodedParams = encodedParams.replaceAll(new RegExp('#'), '%23');
       print("PARAMS: " + jsonData);
-      await getData("post", "login", "signin", encodedParams, "");
+      globals.domain = _companycode;
+      result = await globals.Utility.getData("post", "login", "signin", encodedParams, globals.token);
+
+      //Decode Data
+      try {
+        Map decoded = JSON.decode(result);
+        for (var item in decoded['Table']) {
+          print(item['Token'].toString());
+          print(item['FirstName'].toString());
+          print(item['LastName'].toString());
+          print(item['ImageUrl'].toString());
+
+          globals.token = "" + item['Token'].toString();
+          globals.error = "" + item['Description'].toString();
+        }
+
+      } catch (exception) {
+        print("Error Decoding Data");
+        return false;
+      }
     } else {
       print("Missing Data for Request");
       return false;
     }
+    return true;
+  }
 
-    //Decode Data
-    try {
-      Map decoded = JSON.decode(output);
-      for (var item in decoded['Table']) {
-        print(item['Token'].toString());
-        print(item['FirstName'].toString());
-        print(item['LastName'].toString());
-        print(item['ImageUrl'].toString());
+  tryLogin() async {
+    bool canLogIn = await _loginRequest();
+    print("Token: " + globals.token + " | Error: " + globals.error);
 
-        _token = item['Token'].toString();
+    if(canLogIn) {
+      if(globals.token != 'null') {
+        print("Valid Token!");
+        globals.isLoggedIn = true;
+        Navigator.push(
+          context,
+          new MaterialPageRoute(builder: (context) => new Home()),
+        );
+      } else {
+        print("Invalid Token!");
+        globals.isLoggedIn = false;
+        globals.Utility.showAlertPopup(context, "Info", "Please Try Logging In Again!", globals.error);
       }
-    } catch (exception) {
-      print("Error Decoding Data");
     }
-
-    if(_token != null) {
-      print("Valid Token! => " + _token);
-      _neverSatisfied();
-      return true;
-    } else {
-      print("Invalid Token!");
-      return false;
-    }
-  }
-
-  Future<Null> _neverSatisfied() async {
-    return showDialog<Null>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      child: new AlertDialog(
-        title: new Text('Login Success!'),
-        content: new SingleChildScrollView(
-          child: new ListBody(
-            children: <Widget>[
-              new Text('Token: ' + _token),
-              new Text('Valid Login!'),
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          new FlatButton(
-            child: new Text('Done'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  String encodeMap(Map data) {
-      return data.keys.map((key) => "${Uri.encodeComponent(key)}=${Uri.encodeComponent(data[key])}").join("&");
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      key: _scaffoldKey,
       appBar: new AppBar(
         title: new Text('Login Example'),
       ),
@@ -331,7 +274,26 @@ class LoginPageState extends State<LoginPage> {
                   new Container(height: 20.0),
                   new Container(),
                   new RaisedButton(
-                    onPressed: loginRequest,
+                    onPressed: ()  {
+                      _scaffoldKey.currentState.showSnackBar(
+                            new SnackBar(duration: new Duration(seconds: 2), content:
+                            new Row(
+                              children: <Widget>[
+                                new CircularProgressIndicator(),
+                                new Text("  Signing-In...")
+                              ],
+                            ),
+                          ));
+                      tryLogin()
+                          .whenComplete(() =>
+                          null
+//                          Navigator.of(context).pushNamed("/Home"),
+//                          Navigator.push(
+//                            context,
+//                            new MaterialPageRoute(builder: (context) => new Home()),
+//                          ),
+                      );
+                    },
                     child: new Text('Login'),
                   ),
                 ],
