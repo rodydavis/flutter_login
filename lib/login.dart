@@ -151,13 +151,13 @@ class LoginPageState extends State<LoginPage> {
       try {
         Map decoded = JSON.decode(result);
         for (var item in decoded['Table']) {
-          print(item['Token'].toString());
-          print(item['FirstName'].toString());
-          print(item['LastName'].toString());
-          print(item['ImageUrl'].toString());
+          print(item['userId'].toString());
+          print(item['id'].toString());
+          print(item['title'].toString());
+          print(item['body'].toString());
 
-          globals.token = "" + item['Token'].toString();
-          globals.error = "" + item['Description'].toString();
+          globals.token = "" + item['id'].toString();
+//          globals.error = "" + item['id'].toString();
         }
 
       } catch (exception) {
