@@ -14,6 +14,7 @@ import 'globals.dart' as globals;
 bool isLoggedIn = false;
 String token = "";
 String domain = "";
+String apiURL = "https://reqres.in/api/users/2";
 String error = "";
 
 class Utility {
@@ -45,12 +46,12 @@ class Utility {
   }
 
   static Future<String> getData(String calltypeParm, String modParm, String actionParm, String paramsParm, String fooParm) async {
-    var requestURL = "https://" + domain + "/API/Mobile/get_json_data.aspx?";
-    requestURL = requestURL + "calltype=" + calltypeParm;
-    requestURL = requestURL + "&mod=" + modParm;
-    requestURL = requestURL + "&?action=" + actionParm;
-    requestURL = requestURL + "&?param=" + paramsParm;
-    requestURL = requestURL + "&?foo=" + fooParm;
+    var requestURL = apiURL;
+//    requestURL = requestURL + "calltype=" + calltypeParm;
+//    requestURL = requestURL + "&mod=" + modParm;
+//    requestURL = requestURL + "&?action=" + actionParm;
+//    requestURL = requestURL + "&?param=" + paramsParm;
+//    requestURL = requestURL + "&?foo=" + fooParm;
     print("Request URL: " + requestURL);
 
     var url = requestURL;
