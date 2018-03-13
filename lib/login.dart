@@ -1,7 +1,11 @@
 import 'package:meta/meta.dart';
 import 'dart:async';
+import 'dart:convert';
+import 'dart:math';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(new MaterialApp(home: new LoginPage()));
@@ -102,27 +106,147 @@ class LoginPageState extends State<LoginPage> {
   var _companycode;
   var _password;
 
+  var _token;
+
   final TextEditingController _controllerUsername = new TextEditingController();
   final TextEditingController _controllerCompanyCode = new TextEditingController();
   final TextEditingController _controllerPassword = new TextEditingController();
 
-  void _loginButton({String name, String pass, String company}) {
+  bool _loginButton({String name, String pass, String company}) {
     this._username = name;
     this._companycode = company;
     this._password = pass;
 
     if(_username == "" || _companycode == "" || _password == "") {
       print("Missing Info");
+      return false;
     } else {
       print("Login from Page");
       print(_username);
       print(_companycode);
       print(_password);
 
-      //Todo: Get Token
-      //Todo: Set Company Code from Domain
+      return true;
+    }
+  }
+
+  List data;
+  String output = "";
+  Future<String> getData(String calltypeParm, String modParm, String actionParm, String paramsParm, String fooParm) async {
+    var requestURL = "https://" + _companycode + "/API/Mobile/get_json_data.aspx?";
+    requestURL = requestURL + "calltype=" + calltypeParm;
+    requestURL = requestURL + "&mod=" + modParm;
+    requestURL = requestURL + "&?action=" + actionParm;
+    requestURL = requestURL + "&?param=" + paramsParm;
+    requestURL = requestURL + "&?foo=" + fooParm;
+    print("Request URL: " + requestURL);
+    //    requestURL = "https://jsonplaceholder.typicode.com/posts";
+
+//    var response = await http.get(
+//        Uri.encodeFull(requestURL),
+//        headers: {
+//          "Accept": "application/json"
+//        }
+//    );
+
+    var url = requestURL;
+    var httpClient = new HttpClient();
+    String result;
+    try {
+      var request = await httpClient.getUrl(Uri.parse(url));
+      var response = await request.close();
+      if (response.statusCode == HttpStatus.OK) {
+        try {
+          var json = await response.transform(UTF8.decoder).join();
+          result = json;
+          output = result;
+        } catch (exception) {
+          result = 'Error Getting Data';
+        }
+      } else {
+        result = 'Error getting IP address:\nHttp status ${response.statusCode}';
+      }
+    } catch (exception) {
+      result = 'Failed getting IP address';
+    }
+    print("Result: " + result);
+    return result;
+  }
+
+   Future<bool> loginRequest() async {
+    String result = "";
+    if(_loginButton(name: this._controllerUsername.text,
+        company: this._controllerCompanyCode.text,
+        pass: this._controllerPassword.text)) {
+      var mapData = new Map();
+      mapData["username"] = "" + _username;
+      mapData["password"] = "" + _password;
+      String jsonData = JSON.encode(mapData);
+      String encodedParams = Uri.encodeFull(jsonData);
+      encodedParams = encodedParams.replaceAll(new RegExp(':'), '%3A');
+      encodedParams = encodedParams.replaceAll(new RegExp(','), '%2C');
+      encodedParams = encodedParams.replaceAll(new RegExp('@'), '%40');
+      encodedParams = encodedParams.replaceAll(new RegExp('#'), '%23');
+      print("PARAMS: " + jsonData);
+      await getData("post", "login", "signin", encodedParams, "");
+    } else {
+      print("Missing Data for Request");
+      return false;
     }
 
+    //Decode Data
+    try {
+      Map decoded = JSON.decode(output);
+      for (var item in decoded['Table']) {
+        print(item['Token'].toString());
+        print(item['FirstName'].toString());
+        print(item['LastName'].toString());
+        print(item['ImageUrl'].toString());
+
+        _token = item['Token'].toString();
+      }
+    } catch (exception) {
+      print("Error Decoding Data");
+    }
+
+    if(_token != null) {
+      print("Valid Token! => " + _token);
+      _neverSatisfied();
+      return true;
+    } else {
+      print("Invalid Token!");
+      return false;
+    }
+  }
+
+  Future<Null> _neverSatisfied() async {
+    return showDialog<Null>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      child: new AlertDialog(
+        title: new Text('Login Success!'),
+        content: new SingleChildScrollView(
+          child: new ListBody(
+            children: <Widget>[
+              new Text('Token: ' + _token),
+              new Text('Valid Login!'),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          new FlatButton(
+            child: new Text('Done'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  String encodeMap(Map data) {
+      return data.keys.map((key) => "${Uri.encodeComponent(key)}=${Uri.encodeComponent(data[key])}").join("&");
   }
 
   @override
@@ -207,12 +331,7 @@ class LoginPageState extends State<LoginPage> {
                   new Container(height: 20.0),
                   new Container(),
                   new RaisedButton(
-                    onPressed: () {
-                      _loginButton(name: this._controllerUsername.text,
-                          company: this._controllerCompanyCode.text,
-                          pass: this._controllerPassword.text
-                      );
-                    },
+                    onPressed: loginRequest,
                     child: new Text('Login'),
                   ),
                 ],
