@@ -14,7 +14,7 @@ import 'globals.dart' as globals;
 bool isLoggedIn = false;
 String token = "";
 String domain = "";
-String apiURL = "https://jsonplaceholder.typicode.com/posts/1";
+String apiURL = "https://reqres.in/api/users/2";
 String error = "";
 
 class Utility {

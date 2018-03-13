@@ -101,32 +101,27 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends State<LoginPage> {
   FocusNode _usernameFocusNode = new FocusNode();
-  FocusNode _companycodeFocusNode = new FocusNode();
   FocusNode _passwordFocusNode = new FocusNode();
 
   var _username;
-  var _companycode;
   var _password;
 
   final TextEditingController _controllerUsername = new TextEditingController();
-  final TextEditingController _controllerCompanyCode = new TextEditingController();
   final TextEditingController _controllerPassword = new TextEditingController();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   bool _loginReady() {
     this._username = this._controllerUsername.text;
-    this._companycode = this._controllerCompanyCode.text;
     this._password = this._controllerPassword.text;
 
-    if(_username == "" || _companycode == "" || _password == "") {
+    if(_username == "" || _password == "") {
       print("Missing Info");
       return false;
     } else {
       print("Login from Page");
-      print(_username);
-      print(_companycode);
-      print(_password);
+      print("Username: " + _username);
+      print("Password: " + _password);
       return true;
     }
   }
@@ -134,31 +129,38 @@ class LoginPageState extends State<LoginPage> {
    Future<bool> _loginRequest() async {
     String result = "";
     if(_loginReady()) {
-      var mapData = new Map();
-      mapData["username"] = "" + _username;
-      mapData["password"] = "" + _password;
-      String jsonData = JSON.encode(mapData);
-      String encodedParams = Uri.encodeFull(jsonData);
-      encodedParams = encodedParams.replaceAll(new RegExp(':'), '%3A');
-      encodedParams = encodedParams.replaceAll(new RegExp(','), '%2C');
-      encodedParams = encodedParams.replaceAll(new RegExp('@'), '%40');
-      encodedParams = encodedParams.replaceAll(new RegExp('#'), '%23');
-      print("PARAMS: " + jsonData);
-      globals.domain = _companycode;
-      result = await globals.Utility.getData("post", "login", "signin", encodedParams, globals.token);
+//      var mapData = new Map();
+//      mapData["username"] = "" + _username;
+//      mapData["password"] = "" + _password;
+//      String jsonData = JSON.encode(mapData);
+//      String encodedParams = Uri.encodeFull(jsonData);
+//      encodedParams = encodedParams.replaceAll(new RegExp(':'), '%3A');
+//      encodedParams = encodedParams.replaceAll(new RegExp(','), '%2C');
+//      encodedParams = encodedParams.replaceAll(new RegExp('@'), '%40');
+//      encodedParams = encodedParams.replaceAll(new RegExp('#'), '%23');
+//      print("PARAMS: " + jsonData);
+//      globals.domain = _companycode;
+//      result = await globals.Utility.getData("post", "login", "signin", encodedParams, globals.token);
+      result = await globals.Utility.getData("", "", "", "", "");
 
       //Decode Data
       try {
         Map decoded = JSON.decode(result);
-        for (var item in decoded['Table']) {
-          print(item['userId'].toString());
-          print(item['id'].toString());
-          print(item['title'].toString());
-          print(item['body'].toString());
+//        for (var item in decoded['data']) {
+//          print(item["data"]['id'].toString());
+//          print(item["data"]['first_name'].toString());
+//          print(item["data"]['last_name'].toString());
+//          print(item["data"]['avatar'].toString());
+//
+//          globals.token = "" + item['id'].toString();
+////          globals.error = "" + item['id'].toString();
+//        }
+        print(decoded["data"]['id'].toString());
+        print(decoded["data"]['first_name'].toString());
+        print(decoded["data"]['last_name'].toString());
+        print(decoded["data"]['avatar'].toString());
 
-          globals.token = "" + item['id'].toString();
-//          globals.error = "" + item['id'].toString();
-        }
+        globals.token = "" + decoded["data"]['id'].toString();
 
       } catch (exception) {
         print("Error Decoding Data");
@@ -166,6 +168,7 @@ class LoginPageState extends State<LoginPage> {
       }
     } else {
       print("Missing Data for Request");
+      globals.Utility.showAlertPopup(context, "Info", "Username and Password Required!", "(This example will accept anything)");
       return false;
     }
     return true;
@@ -186,6 +189,7 @@ class LoginPageState extends State<LoginPage> {
       } else {
         print("Invalid Token!");
         globals.isLoggedIn = false;
+        globals.error = "Check Username and Password!";
         globals.Utility.showAlertPopup(context, "Info", "Please Try Logging In Again!", globals.error);
       }
     }
@@ -200,7 +204,7 @@ class LoginPageState extends State<LoginPage> {
       ),
       body: new Container(
         child: new ListView(
-          physics: new NeverScrollableScrollPhysics(),
+          physics: new AlwaysScrollableScrollPhysics(),
           key: new PageStorageKey("Divider 1"),
           children: <Widget>[
             new Container(
@@ -212,10 +216,10 @@ class LoginPageState extends State<LoginPage> {
                     height: 50.0,
                   ),
                   new Image.asset(
-                    'images/unifylogo.png',
+                    'images/login_contact.png',
                     width: 250.0,
                     height: 170.0,
-                    fit: BoxFit.fitWidth,
+                    fit: BoxFit.fitHeight,
                   ),
                   new Center(
                     child: new EnsureVisibleWhenFocused(
@@ -229,24 +233,6 @@ class LoginPageState extends State<LoginPage> {
                           controller: _controllerUsername,
                           decoration: new InputDecoration(
                             labelText: 'Username',
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  new Container(height: 8.0),
-                  new Center(
-                    child: new EnsureVisibleWhenFocused(
-                      focusNode: _companycodeFocusNode,
-                      child:
-                      new Padding(
-                        padding: new EdgeInsets.all(10.0),
-                        child:
-                        new TextFormField(
-                          focusNode: _companycodeFocusNode,
-                          controller: _controllerCompanyCode,
-                          decoration: new InputDecoration(
-                            labelText: 'Unify Domain',
                           ),
                         ),
                       ),
