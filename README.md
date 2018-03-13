@@ -38,6 +38,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
+* https://flutter.io/networking/
+* https://github.com/bramvbilsen/Flutter-HTTP-Requests-REST-api
+* https://github.com/Solido/awesome-flutter
