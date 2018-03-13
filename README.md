@@ -11,9 +11,10 @@ Clone or Fork Project to get started.
 Flutter SDK, Android Studio or Other Compatible IDE.
 
 ## Screenshots
-![Android](https://github.com/AppleEducate/flutter_login/blob/master/Screenshots/android_screenshot.png)
-
-![iOS](https://github.com/AppleEducate/flutter_login/blob/master/Screenshots/ios_screenshot.png)
+<p align="center">
+  <img src="https://github.com/AppleEducate/flutter_login/blob/master/Screenshots/android_screenshot.png" width="350"/>
+  <img src="https://github.com/AppleEducate/flutter_login/blob/master/Screenshots/ios_screenshot.png" width="350"/>
+</p>
 
 ## Built With
 
