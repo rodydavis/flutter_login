@@ -200,7 +200,7 @@ class LoginPageState extends State<LoginPage> {
       ),
       body: new Container(
         child: new ListView(
-          physics: new NeverScrollableScrollPhysics(),
+          physics: new AlwaysScrollableScrollPhysics(),
           key: new PageStorageKey("Divider 1"),
           children: <Widget>[
             new Container(
