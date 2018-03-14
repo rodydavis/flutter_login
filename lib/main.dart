@@ -267,7 +267,7 @@ class LoginPageState extends State<LoginPage> {
                   new RaisedButton(
                     onPressed: ()  {
                       _scaffoldKey.currentState.showSnackBar(
-                            new SnackBar(duration: new Duration(seconds: 2), content:
+                            new SnackBar(duration: new Duration(seconds: 10), content:
                             new Row(
                               children: <Widget>[
                                 new CircularProgressIndicator(),
@@ -277,7 +277,7 @@ class LoginPageState extends State<LoginPage> {
                           ));
                       tryLogin()
                           .whenComplete(() =>
-                          null
+                          _scaffoldKey.currentState.hideCurrentSnackBar(),
 //                          Navigator.of(context).pushNamed("/Home"),
 //                          Navigator.push(
 //                            context,
