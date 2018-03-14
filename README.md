@@ -18,7 +18,7 @@ Flutter SDK, Android Studio or Other Compatible IDE.
 
 ## Built With
 
-* [Flutter](https://flutter.io) - The Crossplatform framework used
+* [Flutter](https://flutter.io) - Crossplatform App Development Framework
 
 ## Contributing
 
