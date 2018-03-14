@@ -278,11 +278,6 @@ class LoginPageState extends State<LoginPage> {
                       tryLogin()
                           .whenComplete(() =>
                           _scaffoldKey.currentState.hideCurrentSnackBar(),
-//                          Navigator.of(context).pushNamed("/Home"),
-//                          Navigator.push(
-//                            context,
-//                            new MaterialPageRoute(builder: (context) => new Home()),
-//                          ),
                       );
                     },
                     child: new Text('Login'),
