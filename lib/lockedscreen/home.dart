@@ -1,12 +1,6 @@
-import 'package:meta/meta.dart';
-import 'dart:async';
-import 'dart:convert';
-import 'dart:math';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:http/http.dart' as http;
-import 'globals.dart' as globals;
+import 'package:flutter_login/globals.dart' as globals;
 
 
 class Home extends StatelessWidget {
@@ -44,14 +38,6 @@ class Home extends StatelessWidget {
                 ),
                 new Container(height: 10.0),
                 new Image.network(globals.avatar, fit: BoxFit.cover),
-                new Container(height: 20.0),
-                new RaisedButton(
-                  onPressed: () {
-                    // Navigate back to first screen when tapped!
-                    Navigator.pop(context);
-                  },
-                  child: new Text('Go back!'),
-                ),
               ],
             )
       ),

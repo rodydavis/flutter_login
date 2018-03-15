@@ -1,14 +1,13 @@
 import 'package:meta/meta.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:http/http.dart' as http;
 import 'globals.dart' as globals;
-import 'home.dart';
-import 'pincode_verify.dart';
+import 'lockedscreen/home.dart';
+import 'authentication/pincode_verify.dart';
+import 'authentication/pincode_create.dart';
+import 'package:local_auth/local_auth.dart';
 
 void main() {
   runApp(new MaterialApp(home: new LoginPage()));
@@ -22,7 +21,8 @@ class EnsureVisibleWhenFocused extends StatefulWidget {
     @required this.focusNode,
     this.curve: Curves.ease,
     this.duration: const Duration(milliseconds: 100),
-  }) : super(key: key);
+  })
+      : super(key: key);
 
   /// The node we will monitor to determine if the child is focused
   final FocusNode focusNode;
@@ -40,7 +40,8 @@ class EnsureVisibleWhenFocused extends StatefulWidget {
   /// Defaults to 100 milliseconds.
   final Duration duration;
 
-  EnsureVisibleWhenFocusedState createState() => new EnsureVisibleWhenFocusedState();
+  EnsureVisibleWhenFocusedState createState() =>
+      new EnsureVisibleWhenFocusedState();
 }
 
 class EnsureVisibleWhenFocusedState extends State<EnsureVisibleWhenFocused> {
@@ -63,8 +64,7 @@ class EnsureVisibleWhenFocusedState extends State<EnsureVisibleWhenFocused> {
     // the need insert a delay here.
     await new Future.delayed(const Duration(milliseconds: 600));
 
-    if (!widget.focusNode.hasFocus)
-      return;
+    if (!widget.focusNode.hasFocus) return;
 
     final RenderObject object = context.findRenderObject();
     final RenderAbstractViewport viewport = RenderAbstractViewport.of(object);
@@ -112,11 +112,11 @@ class LoginPageState extends State<LoginPage> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  bool _loginReady() {
-    this._username = this._controllerUsername.text;
-    this._password = this._controllerPassword.text;
+  bool _loginReady(String username, String password) {
+    this._username = username;
+    this._password = password;
 
-    if(_username == "" || _password == "") {
+    if (_username == "" || _password == "") {
       print("Missing Info");
       return false;
     } else {
@@ -127,9 +127,9 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
-   Future<bool> _loginRequest() async {
+  Future<bool> _loginRequest(String username, String password) async {
     String result = "";
-    if(_loginReady()) {
+    if (_loginReady(username, password)) {
 //      var mapData = new Map();
 //      mapData["username"] = "" + _username;
 //      mapData["password"] = "" + _password;
@@ -164,40 +164,91 @@ class LoginPageState extends State<LoginPage> {
         print(globals.id);
         print(globals.firstname);
         print(globals.lastname);
-        print( globals.avatar);
+        print(globals.avatar);
 
         globals.token = globals.id;
-
       } catch (exception) {
         print("Error Decoding Data");
         return false;
       }
     } else {
       print("Missing Data for Request");
-      globals.Utility.showAlertPopup(context, "Info", "Username and Password Required!", "(This example will accept anything)");
+      globals.Utility.showAlertPopup(
+          context,
+          "Info",
+          "Username and Password Required!",
+          "(This example will accept anything)");
       return false;
     }
     return true;
   }
 
-  tryLogin() async {
-    bool canLogIn = await _loginRequest();
+  tryLogin(String username, String password) async {
+    bool canLogIn = await _loginRequest(username, password);
     print("Token: " + globals.token + " | Error: " + globals.error);
 
-    if(canLogIn) {
-      if(globals.token != 'null') {
+    if (canLogIn) {
+      if (globals.token != 'null') {
         print("Valid Token!");
         globals.isLoggedIn = true;
         Navigator.push(
           context,
-          new MaterialPageRoute(builder: (context) => new AuthVerify()), //When Authorized Navigate to the next screen
+          new MaterialPageRoute(
+              builder: (context) =>
+                  new Home()), //When Authorized Navigate to the next screen
         );
       } else {
         print("Invalid Token!");
         globals.isLoggedIn = false;
         globals.error = "Check Username and Password!";
-        globals.Utility.showAlertPopup(context, "Info", "Please Try Logging In Again!", globals.error);
+        globals.Utility.showAlertPopup(
+            context, "Info", "Please Try Logging In Again!", globals.error);
       }
+    }
+  }
+
+  String _authorized = 'Not Authorized';
+  Future<Null> goToBiometrics() async {
+    final LocalAuthentication auth = new LocalAuthentication();
+    bool authenticated = false;
+    try {
+      authenticated = await auth.authenticateWithBiometrics(
+          localizedReason: 'Scan your fingerprint to authenticate',
+          useErrorDialogs: true,
+          stickyAuth: false);
+    } catch (e) {
+      print(e);
+    }
+    if (!mounted) return;
+
+    setState(() {
+      _authorized = authenticated ? 'Authorized' : 'Not Authorized';
+    });
+
+    if (_authorized.contains('Authorized')) {
+      String savedUsername = "Test";
+      String savedPassword = "Test";
+
+      //Todo: Get Saved Username and Password from Shared Preferences or SQLite
+      tryLogin(savedUsername, savedPassword);
+    }
+  }
+
+  goToPinCode(bool create) async {
+    if (create) {
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) =>
+                new PinCodeCreate()),
+      );
+    } else {
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) =>
+                new PinCodeVerify()),
+      );
     }
   }
 
@@ -230,11 +281,9 @@ class LoginPageState extends State<LoginPage> {
                   new Center(
                     child: new EnsureVisibleWhenFocused(
                       focusNode: _usernameFocusNode,
-                      child:
-                      new Padding(
+                      child: new Padding(
                         padding: new EdgeInsets.all(10.0),
-                        child:
-                        new TextFormField(
+                        child: new TextFormField(
                           focusNode: _usernameFocusNode,
                           controller: _controllerUsername,
                           decoration: new InputDecoration(
@@ -248,11 +297,9 @@ class LoginPageState extends State<LoginPage> {
                   new Center(
                     child: new EnsureVisibleWhenFocused(
                       focusNode: _passwordFocusNode,
-                      child:
-                      new Padding(
+                      child: new Padding(
                         padding: new EdgeInsets.all(10.0),
-                        child:
-                        new TextFormField(
+                        child: new TextFormField(
                           focusNode: _passwordFocusNode,
                           controller: _controllerPassword,
                           obscureText: true,
@@ -264,24 +311,101 @@ class LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   new Container(height: 20.0),
-                  new Container(),
-                  new RaisedButton(
-                    onPressed: ()  {
-                      _scaffoldKey.currentState.showSnackBar(
-                            new SnackBar(duration: new Duration(seconds: 10), content:
-                            new Row(
-                              children: <Widget>[
-                                new CircularProgressIndicator(),
-                                new Text("  Signing-In...")
-                              ],
+                  new Row(
+                    children: <Widget>[
+                      new Expanded(
+                        child: new Column(
+                          children: <Widget>[
+                            new RaisedButton(
+                              onPressed: () {
+                                _scaffoldKey.currentState
+                                    .showSnackBar(new SnackBar(
+                                  duration: new Duration(seconds: 10),
+                                  content: new Row(
+                                    children: <Widget>[
+                                      new CircularProgressIndicator(),
+                                      new Text("  Signing-In...")
+                                    ],
+                                  ),
+                                ));
+                                tryLogin(this._controllerUsername.text,
+                                        this._controllerPassword.text)
+                                    .whenComplete(
+                                  () => _scaffoldKey.currentState
+                                      .hideCurrentSnackBar(),
+                                );
+                              },
+                              child: new Text('Login'),
                             ),
-                          ));
-                      tryLogin()
-                          .whenComplete(() =>
-                          _scaffoldKey.currentState.hideCurrentSnackBar(),
-                      );
-                    },
-                    child: new Text('Login'),
+                            new Container(height: 20.0),
+                            new RaisedButton(
+                              onPressed: () {
+                                _scaffoldKey.currentState
+                                    .showSnackBar(new SnackBar(
+                                  duration: new Duration(seconds: 10),
+                                  content: new Row(
+                                    children: <Widget>[
+                                      new CircularProgressIndicator(),
+                                      new Text("  Signing-In...")
+                                    ],
+                                  ),
+                                ));
+                                goToBiometrics().whenComplete(
+                                  () => _scaffoldKey.currentState
+                                      .hideCurrentSnackBar(),
+                                );
+                              },
+                              child: new Text('Authenticate'),
+                            ),
+                          ],
+                        ),
+                      ),
+                      new Expanded(
+                        child: new Column(
+                          children: <Widget>[
+                            new RaisedButton(
+                              onPressed: () {
+                                _scaffoldKey.currentState
+                                    .showSnackBar(new SnackBar(
+                                  duration: new Duration(seconds: 10),
+                                  content: new Row(
+                                    children: <Widget>[
+                                      new CircularProgressIndicator(),
+                                      new Text("  Signing-In...")
+                                    ],
+                                  ),
+                                ));
+                                goToPinCode(true).whenComplete(
+                                  () => _scaffoldKey.currentState
+                                      .hideCurrentSnackBar(),
+                                );
+                              },
+                              child: new Text('Create Pin'),
+                            ),
+                            new Container(height: 20.0),
+                            new RaisedButton(
+                              onPressed: () {
+                                _scaffoldKey.currentState
+                                    .showSnackBar(new SnackBar(
+                                  duration: new Duration(seconds: 10),
+                                  content: new Row(
+                                    children: <Widget>[
+                                      new CircularProgressIndicator(),
+                                      new Text("  Signing-In...")
+                                    ],
+                                  ),
+                                ));
+                                goToPinCode(false).whenComplete(
+                                  () => _scaffoldKey.currentState
+                                      .hideCurrentSnackBar(),
+                                );
+                              },
+                              child: new Text('Verify Pin'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

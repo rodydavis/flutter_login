@@ -1,14 +1,9 @@
-library my_prj.globals;
+library globals;
 
-import 'package:meta/meta.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:http/http.dart' as http;
-import 'globals.dart' as globals;
 
 //Variables
 bool isLoggedIn = false;
@@ -17,10 +12,10 @@ String domain = "";
 String apiURL = "https://reqres.in/api/users/2";
 String error = "";
 
-String id = "";
-String firstname = "";
-String lastname = "";
-String avatar = "";
+String id = "0";
+String firstname = "Test";
+String lastname = "Test";
+String avatar = "https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg";
 
 class Utility {
 
