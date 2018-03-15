@@ -326,24 +326,6 @@ class LoginPageState extends State<LoginPage> {
                     },
                     child: new Text('Login'),
                   ),
-                  new Container(height: 20.0),
-                  new RaisedButton(
-                    onPressed: () {
-                      _scaffoldKey.currentState.showSnackBar(new SnackBar(
-                        duration: new Duration(seconds: 10),
-                        content: new Row(
-                          children: <Widget>[
-                            new CircularProgressIndicator(),
-                            new Text("  Signing-In...")
-                          ],
-                        ),
-                      ));
-                      goToBiometrics().whenComplete(
-                        () => _scaffoldKey.currentState.hideCurrentSnackBar(),
-                      );
-                    },
-                    child: new Text('Authenticate'),
-                  ),
                 ],
               ),
             ),
