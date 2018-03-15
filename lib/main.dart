@@ -8,6 +8,7 @@ import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'globals.dart' as globals;
 import 'home.dart';
+import 'pincode_verify.dart';
 
 void main() {
   runApp(new MaterialApp(home: new LoginPage()));
@@ -189,7 +190,7 @@ class LoginPageState extends State<LoginPage> {
         globals.isLoggedIn = true;
         Navigator.push(
           context,
-          new MaterialPageRoute(builder: (context) => new Home()),
+          new MaterialPageRoute(builder: (context) => new AuthVerify()), //When Authorized Navigate to the next screen
         );
       } else {
         print("Invalid Token!");

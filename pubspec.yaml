@@ -2,6 +2,7 @@ name: flutter_login
 description: A new Flutter application.
 
 dependencies:
+  local_auth: "^0.2.0"
   flutter:
     sdk: flutter
 
