@@ -5,6 +5,7 @@ import 'globals.dart' as globals;
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:local_auth/local_auth.dart';
+import 'home.dart';
 
 class PinCodeVerify extends StatelessWidget {
   
@@ -78,7 +79,14 @@ class _AuthVerifyState extends State<AuthVerify> {
     setState(() {
       _authorized = authenticated ? 'Authorized' : 'Not Authorized';
     });
+    if (_authorized.contains("Authorized")) {
+      Navigator.push(
+          context,
+          new MaterialPageRoute(builder: (context) => new Home()), //When Authorized Navigate to the next screen
+        );
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
