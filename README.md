@@ -1,6 +1,6 @@
 # Flutter Login Example
 
-This example uses a ScrollView, JSON Rest API, Navigating between screens, Alert Pop Up, Progress Indicator, Globals, Images in a shared asset folder, and 100% Shared Code. Now with the ability to create a new pin code, verify existing one, login with FaceID, TouchID, and Fingerprint Reader on Android. 
+This example uses a ScrollView, JSON Rest API, Navigation, Alert Pop Up, Progress Indicator, Globals, Images in a shared asset folder, and 100% Shared Code. Now with the ability to create a new pin code, verify existing one, login with FaceID, TouchID, and Fingerprint Reader on Android. 
 
 ## Getting Started
 
