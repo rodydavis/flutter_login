@@ -19,7 +19,7 @@ Flutter SDK, Android Studio or Other Compatible IDE.
 Pin and Fingerprint Reader
 <p align="center">
   <img src="https://github.com/AppleEducate/flutter_login/blob/1.1.0-beta/Screenshots/android_pin.png" width="350"/>
-  <img src="https://github.com/AppleEducate/flutter_login/blob/1.1.0-beta/Screenshots/android_fingerprint.png"/>
+  <img src="https://github.com/AppleEducate/flutter_login/blob/1.1.0-beta/Screenshots/android_fingerprint.png" width="350"/>
 </p>
 
 ## Built With
