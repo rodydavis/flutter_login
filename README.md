@@ -10,7 +10,7 @@ Clone or Fork Project to get started.
 
 Flutter SDK, Android Studio or Other Compatible IDE.
 
-# iOS Integration
+#### iOS Integration
 
 Note that this plugin works with both TouchID and FaceID. However, to use the latter,
 you need to also add:
@@ -24,7 +24,7 @@ to your Info.plist file. Failure to do so results in a dialog that tells the use
 app has not been updated to use TouchID.
 
 
-# Android Integration
+#### Android Integration
 
 Update your project's `AndroidManifest.xml` file to include the
 `USE_FINGERPRINT` permissions:
@@ -36,7 +36,7 @@ Update your project's `AndroidManifest.xml` file to include the
 <manifest>
 ```
 
-# Sticky Auth
+#### Sticky Auth
 
 You can set the `stickyAuth` option on the plugin to true so that plugin does not
 return failure if the app is put to background by the system. This might happen
