@@ -62,7 +62,7 @@ app resumes.
 * [Flutter](https://flutter.io) - Crossplatform App Development Framework
 
 ## Contributing
-Please submit a pull request if you want to help the project grow furter. The goal is to be able to fork the project and have a login module for your app complete so that a new project can be started quickly and customized to the user's needs.
+Please submit a pull request if you want to help the project grow. The goal is to be able to fork the project and have a login module for your app complete so that a new project can be started quickly and customized to the user's needs.
 
 Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
