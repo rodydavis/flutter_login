@@ -238,16 +238,12 @@ class LoginPageState extends State<LoginPage> {
     if (create) {
       Navigator.push(
         context,
-        new MaterialPageRoute(
-            builder: (context) =>
-                new PinCodeCreate()),
+        new MaterialPageRoute(builder: (context) => new PinCodeCreate()),
       );
     } else {
       Navigator.push(
         context,
-        new MaterialPageRoute(
-            builder: (context) =>
-                new PinCodeVerify()),
+        new MaterialPageRoute(builder: (context) => new PinCodeVerify()),
       );
     }
   }
@@ -311,101 +307,42 @@ class LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   new Container(height: 20.0),
-                  new Row(
-                    children: <Widget>[
-                      new Expanded(
-                        child: new Column(
+                  new RaisedButton(
+                    onPressed: () {
+                      _scaffoldKey.currentState.showSnackBar(new SnackBar(
+                        duration: new Duration(seconds: 10),
+                        content: new Row(
                           children: <Widget>[
-                            new RaisedButton(
-                              onPressed: () {
-                                _scaffoldKey.currentState
-                                    .showSnackBar(new SnackBar(
-                                  duration: new Duration(seconds: 10),
-                                  content: new Row(
-                                    children: <Widget>[
-                                      new CircularProgressIndicator(),
-                                      new Text("  Signing-In...")
-                                    ],
-                                  ),
-                                ));
-                                tryLogin(this._controllerUsername.text,
-                                        this._controllerPassword.text)
-                                    .whenComplete(
-                                  () => _scaffoldKey.currentState
-                                      .hideCurrentSnackBar(),
-                                );
-                              },
-                              child: new Text('Login'),
-                            ),
-                            new Container(height: 20.0),
-                            new RaisedButton(
-                              onPressed: () {
-                                _scaffoldKey.currentState
-                                    .showSnackBar(new SnackBar(
-                                  duration: new Duration(seconds: 10),
-                                  content: new Row(
-                                    children: <Widget>[
-                                      new CircularProgressIndicator(),
-                                      new Text("  Signing-In...")
-                                    ],
-                                  ),
-                                ));
-                                goToBiometrics().whenComplete(
-                                  () => _scaffoldKey.currentState
-                                      .hideCurrentSnackBar(),
-                                );
-                              },
-                              child: new Text('Authenticate'),
-                            ),
+                            new CircularProgressIndicator(),
+                            new Text("  Signing-In...")
                           ],
                         ),
-                      ),
-                      new Expanded(
-                        child: new Column(
+                      ));
+                      tryLogin(this._controllerUsername.text,
+                              this._controllerPassword.text)
+                          .whenComplete(
+                        () => _scaffoldKey.currentState.hideCurrentSnackBar(),
+                      );
+                    },
+                    child: new Text('Login'),
+                  ),
+                  new Container(height: 20.0),
+                  new RaisedButton(
+                    onPressed: () {
+                      _scaffoldKey.currentState.showSnackBar(new SnackBar(
+                        duration: new Duration(seconds: 10),
+                        content: new Row(
                           children: <Widget>[
-                            new RaisedButton(
-                              onPressed: () {
-                                _scaffoldKey.currentState
-                                    .showSnackBar(new SnackBar(
-                                  duration: new Duration(seconds: 10),
-                                  content: new Row(
-                                    children: <Widget>[
-                                      new CircularProgressIndicator(),
-                                      new Text("  Signing-In...")
-                                    ],
-                                  ),
-                                ));
-                                goToPinCode(true).whenComplete(
-                                  () => _scaffoldKey.currentState
-                                      .hideCurrentSnackBar(),
-                                );
-                              },
-                              child: new Text('Create Pin'),
-                            ),
-                            new Container(height: 20.0),
-                            new RaisedButton(
-                              onPressed: () {
-                                _scaffoldKey.currentState
-                                    .showSnackBar(new SnackBar(
-                                  duration: new Duration(seconds: 10),
-                                  content: new Row(
-                                    children: <Widget>[
-                                      new CircularProgressIndicator(),
-                                      new Text("  Signing-In...")
-                                    ],
-                                  ),
-                                ));
-                                goToPinCode(false).whenComplete(
-                                  () => _scaffoldKey.currentState
-                                      .hideCurrentSnackBar(),
-                                );
-                              },
-                              child: new Text('Verify Pin'),
-                            ),
+                            new CircularProgressIndicator(),
+                            new Text("  Signing-In...")
                           ],
                         ),
-                      ),
-                    ],
+                      ));
+                      goToBiometrics().whenComplete(
+                        () => _scaffoldKey.currentState.hideCurrentSnackBar(),
+                      );
+                    },
+                    child: new Text('Authenticate'),
                   ),
                 ],
               ),
