@@ -12,8 +12,14 @@ Flutter SDK, Android Studio or Other Compatible IDE.
 
 ## Screenshots
 <p align="center">
-  <img src="https://github.com/AppleEducate/flutter_login/blob/master/Screenshots/android_screenshot.png" width="350"/>
+  <img src="https://github.com/AppleEducate/flutter_login/blob/1.1.0-beta/Screenshots/android_screenshot.png" width="350"/>
   <img src="https://github.com/AppleEducate/flutter_login/blob/master/Screenshots/ios_screenshot.png" width="350"/>
+</p>
+
+Pin and Fingerprint Reader
+<p align="center">
+  <img src="https://github.com/AppleEducate/flutter_login/blob/1.1.0-beta/Screenshots/android_pin.png" width="350"/>
+  <img src="https://github.com/AppleEducate/flutter_login/blob/1.1.0-beta/Screenshots/android_fingerprint.png"/>
 </p>
 
 ## Built With
