@@ -226,10 +226,10 @@ class LoginPageState extends State<LoginPage> {
     });
 
     if (_authorized.contains('Authorized')) {
+      //Todo: Get Saved Username and Password from Shared Preferences or SQLite
       String savedUsername = "Test";
       String savedPassword = "Test";
 
-      //Todo: Get Saved Username and Password from Shared Preferences or SQLite
       tryLogin(savedUsername, savedPassword);
     }
   }

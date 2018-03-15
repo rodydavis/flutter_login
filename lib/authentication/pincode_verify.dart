@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_login/globals.dart' as globals;
-import 'dart:async';
-import 'package:flutter/services.dart';
-import 'package:local_auth/local_auth.dart';
-import 'package:flutter_login/lockedscreen/home.dart';
-import 'dart:convert';
 
 class PinCodeVerify extends StatelessWidget {
   @override
@@ -20,67 +14,150 @@ class PinCodeVerify extends StatelessWidget {
           crossAxisSpacing: 10.0,
           crossAxisCount: 3,
           children: <Widget>[
-            const Text(
-              '',
-              textAlign: TextAlign.center,
+            new Padding(
+              padding: new EdgeInsets.all(20.0),
+              child: new FloatingActionButton(
+                  elevation: 0.0,
+                  heroTag: "1",
+                  child: new Text('1',
+                      style: new TextStyle(
+                        fontSize: 40.0,
+                        fontFamily: 'Roboto',
+                        color: Colors.white,
+                      )),
+                  backgroundColor: new Color(0xFFE57373),
+                  onPressed: () {}),
             ),
-            const Text(
-              '',
-              textAlign: TextAlign.center,
+            new Padding(
+              padding: new EdgeInsets.all(20.0),
+              child: new FloatingActionButton(
+                  elevation: 0.0,
+                  heroTag: "2",
+                  child: new Text('2',
+                      style: new TextStyle(
+                        fontSize: 40.0,
+                        fontFamily: 'Roboto',
+                        color: Colors.white,
+                      )),
+                  backgroundColor: new Color(0xFFE57373),
+                  onPressed: () {}),
             ),
-            const Text(
-              '',
-              textAlign: TextAlign.center,
+            new Padding(
+              padding: new EdgeInsets.all(20.0),
+              child: new FloatingActionButton(
+                  elevation: 0.0,
+                  heroTag: "3",
+                  child: new Text('3',
+                      style: new TextStyle(
+                        fontSize: 40.0,
+                        fontFamily: 'Roboto',
+                        color: Colors.white,
+                      )),
+                  backgroundColor: new Color(0xFFE57373),
+                  onPressed: () {}),
             ),
-            const Text(
-              '1',
-              textAlign: TextAlign.center,
+            new Padding(
+              padding: new EdgeInsets.all(20.0),
+              child: new FloatingActionButton(
+                  elevation: 0.0,
+                  heroTag: "4",
+                  child: new Text('4',
+                      style: new TextStyle(
+                        fontSize: 40.0,
+                        fontFamily: 'Roboto',
+                        color: Colors.white,
+                      )),
+                  backgroundColor: new Color(0xFFE57373),
+                  onPressed: () {}),
             ),
-            const Text(
-              '2',
-              textAlign: TextAlign.center,
+            new Padding(
+              padding: new EdgeInsets.all(20.0),
+              child: new FloatingActionButton(
+                  elevation: 0.0,
+                  heroTag: "5",
+                  child: new Text('5',
+                      style: new TextStyle(
+                        fontSize: 40.0,
+                        fontFamily: 'Roboto',
+                        color: Colors.white,
+                      )),
+                  backgroundColor: new Color(0xFFE57373),
+                  onPressed: () {}),
             ),
-            const Text(
-              '3',
-              textAlign: TextAlign.center,
+            new Padding(
+              padding: new EdgeInsets.all(20.0),
+              child: new FloatingActionButton(
+                  elevation: 0.0,
+                  heroTag: "6",
+                  child: new Text('6',
+                      style: new TextStyle(
+                        fontSize: 40.0,
+                        fontFamily: 'Roboto',
+                        color: Colors.white,
+                      )),
+                  backgroundColor: new Color(0xFFE57373),
+                  onPressed: () {}),
             ),
-            const Text(
-              '4',
-              textAlign: TextAlign.center,
+            new Padding(
+              padding: new EdgeInsets.all(20.0),
+              child: new FloatingActionButton(
+                  elevation: 0.0,
+                  heroTag: "7",
+                  child: new Text('7',
+                      style: new TextStyle(
+                        fontSize: 40.0,
+                        fontFamily: 'Roboto',
+                        color: Colors.white,
+                      )),
+                  backgroundColor: new Color(0xFFE57373),
+                  onPressed: () {}),
             ),
-            const Text(
-              '5',
-              textAlign: TextAlign.center,
+            new Padding(
+              padding: new EdgeInsets.all(20.0),
+              child: new FloatingActionButton(
+                  elevation: 0.0,
+                  heroTag: "8",
+                  child: new Text('8',
+                      style: new TextStyle(
+                        fontSize: 40.0,
+                        fontFamily: 'Roboto',
+                        color: Colors.white,
+                      )),
+                  backgroundColor: new Color(0xFFE57373),
+                  onPressed: () {}),
             ),
-            const Text(
-              '6',
-              textAlign: TextAlign.center,
+            new Padding(
+              padding: new EdgeInsets.all(20.0),
+              child: new FloatingActionButton(
+                  elevation: 0.0,
+                  heroTag: "9",
+                  child: new Text('9',
+                      style: new TextStyle(
+                        fontSize: 40.0,
+                        fontFamily: 'Roboto',
+                        color: Colors.white,
+                      )),
+                  backgroundColor: new Color(0xFFE57373),
+                  onPressed: () {}),
             ),
-            const Text(
-              '7',
-              textAlign: TextAlign.center,
+            new Text(''),
+            new Padding(
+              padding: new EdgeInsets.all(20.0),
+              child: new FloatingActionButton(
+                  elevation: 0.0,
+                  heroTag: "0",
+                  child: new Text('0',
+                      style: new TextStyle(
+                        fontSize: 40.0,
+                        fontFamily: 'Roboto',
+                        color: Colors.white,
+                      )),
+                  backgroundColor: new Color(0xFFE57373),
+                  onPressed: () {}),
             ),
-            const Text(
-              '8',
-              textAlign: TextAlign.center,
-            ),
-            const Text(
-              '9',
-              textAlign: TextAlign.center,
-            ),
-            const Text(
-              '',
-              textAlign: TextAlign.center,
-            ),
-            const Text(
-              '0',
-              textAlign: TextAlign.center,
-            ),
-            const Text(
-              '',
-              textAlign: TextAlign.center,
-            ),
+            new Text(''),
           ],
-        ));
+        ),
+        );
   }
 }
