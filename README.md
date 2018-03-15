@@ -10,25 +10,40 @@ Clone or Fork Project to get started.
 
 Flutter SDK, Android Studio or Other Compatible IDE.
 
-iOS Integration
+# iOS Integration
 
-Note that this plugin works with both TouchID and FaceID. However, to use the latter, you need to also add:
+Note that this plugin works with both TouchID and FaceID. However, to use the latter,
+you need to also add:
 
+```
 <key>NSFaceIDUsageDescription</key>
 <string>Why is my app authenticating using face id?</string>
-to your Info.plist file. Failure to do so results in a dialog that tells the user your app has not been updated to use TouchID.
+```
 
-Android Integration
+to your Info.plist file. Failure to do so results in a dialog that tells the user your
+app has not been updated to use TouchID.
 
-Update your project's AndroidManifest.xml file to include the USE_FINGERPRINT permissions:
 
+# Android Integration
+
+Update your project's `AndroidManifest.xml` file to include the
+`USE_FINGERPRINT` permissions:
+
+```
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.app">
   <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
 <manifest>
-Sticky Auth
+```
 
-You can set the stickyAuth option on the plugin to true so that plugin does not return failure if the app is put to background by the system. This might happen if the user receives a phone call before they get a chance to authenticate. With stickyAuth set to false, this would result in plugin returning failure result to the Dart app. If set to true, the plugin will retry authenticating when the app resumes.
+# Sticky Auth
+
+You can set the `stickyAuth` option on the plugin to true so that plugin does not
+return failure if the app is put to background by the system. This might happen
+if the user receives a phone call before they get a chance to authenticate. With
+`stickyAuth` set to false, this would result in plugin returning failure result
+to the Dart app. If set to true, the plugin will retry authenticating when the
+app resumes.
 
 ## Screenshots
 <p align="center">
