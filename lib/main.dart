@@ -139,7 +139,8 @@ class LoginPageState extends State<LoginPage> {
     });
 
     if (_authorized.contains('Authorized')) {
-      //Todo: Get Saved Username and Password from Shared Preferences or SQLite
+      //Todo: Get Saved Username and Password from Shared Preferences
+      //https://github.com/flutter/plugins/tree/master/packages/shared_preferences
       String savedUsername = "Test";
       String savedPassword = "Test";
 
