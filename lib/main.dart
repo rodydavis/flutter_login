@@ -105,6 +105,19 @@ class LoginPageState extends State<LoginPage> {
 
     if (globals.token != 'null') {
       print("Valid Token!");
+
+      //  SharedPreferences prefs = await SharedPreferences.getInstance();
+      // int counter = (prefs.getInt('counter') ?? 0) + 1;
+      // prefs.setBool('usePinCode', false);
+
+      
+
+      //Save Username and Password to Shared Preferences
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      print('Username: $username Password $password.');
+      prefs.setString('userUsername', username);
+      prefs.setString('userPassword', password);
+
       globals.isLoggedIn = true;
       Navigator.push(
         context,
@@ -120,6 +133,8 @@ class LoginPageState extends State<LoginPage> {
           context, "Info", "Please Try Logging In Again!", globals.error);
     }
   }
+
+
 
   String _authorized = 'Not Authorized';
   Future<Null> goToBiometrics() async {
