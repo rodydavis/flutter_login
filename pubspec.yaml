@@ -2,9 +2,10 @@ name: flutter_login
 description: A new Flutter application.
 
 dependencies:
-  local_auth: "^0.2.0"
   flutter:
     sdk: flutter
+  local_auth: "^0.2.0"
+  shared_preferences: "^0.4.0"
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

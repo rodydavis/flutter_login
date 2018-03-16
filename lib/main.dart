@@ -8,6 +8,7 @@ import 'lockedscreen/home.dart';
 import 'authentication/pincode_verify.dart';
 import 'authentication/pincode_create.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(new MaterialApp(home: new LoginPage()));
