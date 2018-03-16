@@ -22,7 +22,6 @@ class LoginPageState extends State<LoginPage> {
   final _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   String _username;
-  String _companycode;
   String _password;
 
   Future<Null> _submit() async {
@@ -37,13 +36,20 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
-  void _performLogin() {
+  void _performLogin() async {
     // This is just a demo, so no actual login here.
-    tryLogin(_username, _password);
     final snackbar = new SnackBar(
-      content: new Text('username: $_username, password: $_password'),
+      duration: new Duration(seconds: 10),
+      content: new Row(
+        children: <Widget>[
+          new CircularProgressIndicator(),
+          new Text("  Signing-In...")
+        ],
+      ),
     );
     _scaffoldKey.currentState.showSnackBar(snackbar);
+    await tryLogin(_username, _password);
+    _scaffoldKey.currentState.hideCurrentSnackBar();
   }
 
   Future<bool> _loginRequest(String username, String password) async {
@@ -141,18 +147,18 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
-  goToPinCode(bool create) async {
-    if (create) {
-      Navigator.push(
-        context,
-        new MaterialPageRoute(builder: (context) => new PinCodeCreate()),
-      );
-    } else {
-      Navigator.push(
-        context,
-        new MaterialPageRoute(builder: (context) => new PinCodeVerify()),
-      );
-    }
+  goToVerifyPinCode() async {
+    Navigator.push(
+      context,
+      new MaterialPageRoute(builder: (context) => new PinCodeVerify()),
+    );
+  }
+
+  goToCreatePinCode() async {
+    Navigator.push(
+      context,
+      new MaterialPageRoute(builder: (context) => new PinCodeCreate()),
+    );
   }
 
   @override
@@ -188,56 +194,61 @@ class LoginPageState extends State<LoginPage> {
                       obscureText: false,
                     ),
                     new TextFormField(
-                      decoration:
-                          new InputDecoration(labelText: 'Unify Domain'),
-                      validator: (val) =>
-                          val.length < 1 ? 'Unify Domain Required' : null,
-                      onSaved: (val) => _companycode = val,
-                      obscureText: false,
-                    ),
-                    new TextFormField(
                       decoration: new InputDecoration(labelText: 'Password'),
                       validator: (val) =>
                           val.length < 1 ? 'Password Required' : null,
                       onSaved: (val) => _password = val,
                       obscureText: true,
                     ),
-                    new Container(height: 40.0),
-                    new RaisedButton(
-                      onPressed: () {
-                        _scaffoldKey.currentState.showSnackBar(new SnackBar(
-                          duration: new Duration(seconds: 10),
-                          content: new Row(
-                            children: <Widget>[
-                              new CircularProgressIndicator(),
-                              new Text("  Signing-In...")
-                            ],
-                          ),
-                        ));
-                        _submit().whenComplete(
-                          () => _scaffoldKey.currentState.hideCurrentSnackBar(),
-                        );
-                      },
-                      child: new Text('Login'),
-                    ),
                     new Container(height: 20.0),
-                    new RaisedButton(
-                      onPressed: () {
-                        _scaffoldKey.currentState.showSnackBar(new SnackBar(
-                          duration: new Duration(seconds: 10),
-                          content: new Row(
-                            children: <Widget>[
-                              new CircularProgressIndicator(),
-                              new Text("  Signing-In...")
-                            ],
-                          ),
-                        ));
-                        goToBiometrics().whenComplete(
-                          () => _scaffoldKey.currentState.hideCurrentSnackBar(),
-                        );
-                      },
-                      child: new Text('Authenticate'),
-                    ),
+                    new Column(
+                      children: <Widget>[
+                        new Row(
+                          children: <Widget>[
+                            new Expanded(
+                              child: new Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: new RaisedButton(
+                                  onPressed: _submit,
+                                  child: new Text('Login'),
+                                ),
+                              ),
+                            ),
+                            new Expanded(
+                              child: new Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: new RaisedButton(
+                                  onPressed: goToBiometrics,
+                                  child: new Text('Authenticate'),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        new Row(
+                          children: <Widget>[
+                            new Expanded(
+                              child: new Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: new RaisedButton(
+                                  onPressed: goToCreatePinCode,
+                                  child: new Text('Create Pin'),
+                                ),
+                              ),
+                            ),
+                            new Expanded(
+                              child: new Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: new RaisedButton(
+                                  onPressed: goToVerifyPinCode,
+                                  child: new Text('Verify Pin'),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    )
                   ],
                 ),
               ),
