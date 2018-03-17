@@ -119,9 +119,13 @@ class LoginPageState extends State<LoginPage> {
       prefs.setString('userPassword', password);
       prefs.setString('userToken', globals.token);
 
-      // await showAlertPopup(context);
+      await showAlertPopup();
       await saveData(_usePinCode);
-      navigateToScreen('Home');
+      if (_usePinCode) {
+        navigateToScreen('Create Pin');
+      } else {
+        navigateToScreen('Home');
+      }
     } else {
       print("Invalid Token!");
       globals.isLoggedIn = false;
@@ -133,13 +137,9 @@ class LoginPageState extends State<LoginPage> {
 
   saveData(bool usePin) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool usingPin = false;
-    //Todo Get From Popup
-    if (usingPin) {
-      _usePinCode = true;
+    if (usePin) {
       prefs.setBool('usePinCode', true);
     } else {
-      _usePinCode = false;
       prefs.setBool('usePinCode', false);
     }
   }
@@ -171,7 +171,7 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
-  static Future<Null> showAlertPopup(BuildContext context) async {
+  Future<Null> showAlertPopup() async {
     return showDialog<Null>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -188,11 +188,17 @@ class LoginPageState extends State<LoginPage> {
         actions: <Widget>[
           new FlatButton(
             child: new Text('Yes'),
-            onPressed: null, //Navigator.of(context).pop();
+            onPressed: () {
+              _usePinCode = true;
+              Navigator.of(context).pop();
+            },
           ),
           new FlatButton(
             child: new Text('No'),
-            onPressed: null,
+            onPressed: () {
+              _usePinCode = false;
+              Navigator.of(context).pop();
+            },
           ),
         ],
       ),
@@ -269,54 +275,20 @@ class LoginPageState extends State<LoginPage> {
                       obscureText: true,
                     ),
                     new Container(height: 20.0),
-                    new Column(
-                      children: <Widget>[
-                        new Row(
-                          children: <Widget>[
-                            new Expanded(
-                              child: new Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: new RaisedButton(
-                                  onPressed: _submit,
-                                  child: new Text('Login'),
-                                ),
-                              ),
-                            ),
-                            new Expanded(
-                              child: new Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: new RaisedButton(
-                                  onPressed: goToBiometrics,
-                                  child: new Text('Authenticate'),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        new Row(
-                          children: <Widget>[
-                            new Expanded(
-                              child: new Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: new RaisedButton(
-                                  onPressed: null,
-                                  child: new Text('Create Pin'),
-                                ),
-                              ),
-                            ),
-                            new Expanded(
-                              child: new Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: new RaisedButton(
-                                  onPressed: null,
-                                  child: new Text('Verify Pin'),
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    )
+                    new Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: new RaisedButton(
+                        onPressed: _submit,
+                        child: new Text('Login'),
+                      ),
+                    ),
+                    new Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: new RaisedButton(
+                        onPressed: goToBiometrics,
+                        child: new Text('Authenticate'),
+                      ),
+                    ),
                   ],
                 ),
               ),
