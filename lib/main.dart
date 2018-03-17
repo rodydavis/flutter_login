@@ -24,6 +24,7 @@ class LoginPageState extends State<LoginPage> {
 
   String _username;
   String _password;
+  bool _usePinCode;
 
   Future<Null> _submit() async {
     final form = formKey.currentState;
@@ -105,26 +106,22 @@ class LoginPageState extends State<LoginPage> {
 
     if (globals.token != 'null') {
       print("Valid Token!");
+      globals.isLoggedIn = true;
 
       //  SharedPreferences prefs = await SharedPreferences.getInstance();
       // int counter = (prefs.getInt('counter') ?? 0) + 1;
       // prefs.setBool('usePinCode', false);
-
-      
 
       //Save Username and Password to Shared Preferences
       SharedPreferences prefs = await SharedPreferences.getInstance();
       print('Username: $username Password $password.');
       prefs.setString('userUsername', username);
       prefs.setString('userPassword', password);
+      prefs.setString('userToken', globals.token);
 
-      globals.isLoggedIn = true;
-      Navigator.push(
-        context,
-        new MaterialPageRoute(
-            builder: (context) =>
-                new Home()), //When Authorized Navigate to the next screen
-      );
+      // await showAlertPopup(context);
+      await saveData(_usePinCode);
+      navigateToScreen('Home');
     } else {
       print("Invalid Token!");
       globals.isLoggedIn = false;
@@ -134,7 +131,73 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
+  saveData(bool usePin) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool usingPin = false;
+    //Todo Get From Popup
+    if (usingPin) {
+      _usePinCode = true;
+      prefs.setBool('usePinCode', true);
+    } else {
+      _usePinCode = false;
+      prefs.setBool('usePinCode', false);
+    }
+  }
 
+  Future<Null> navigateToScreen(String name) async {
+    if (name.contains('Home')) {
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) =>
+                new Home()), //When Authorized Navigate to the next screen
+      );
+    } else if (name.contains('Create Pin')) {
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) =>
+                new PinCodeCreate()), //When Authorized Navigate to the next screen
+      );
+    } else if (name.contains('Verify Pin')) {
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) =>
+                new PinCodeVerify()), //When Authorized Navigate to the next screen
+      );
+    } else {
+      print('Error: $name');
+    }
+  }
+
+  static Future<Null> showAlertPopup(BuildContext context) async {
+    return showDialog<Null>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      child: new AlertDialog(
+        title: new Text('Info'),
+        content: new SingleChildScrollView(
+          child: new ListBody(
+            children: <Widget>[
+              new Text('Would you like to set a Pin Code for a faster log in?'),
+              new Text('Once a Pin is set you can unlock with biometrics'),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          new FlatButton(
+            child: new Text('Yes'),
+            onPressed: null, //Navigator.of(context).pop();
+          ),
+          new FlatButton(
+            child: new Text('No'),
+            onPressed: null,
+          ),
+        ],
+      ),
+    );
+  }
 
   String _authorized = 'Not Authorized';
   Future<Null> goToBiometrics() async {
@@ -152,30 +215,18 @@ class LoginPageState extends State<LoginPage> {
 
     setState(() {
       _authorized = authenticated ? 'Authorized' : 'Not Authorized';
+
+      if (authenticated) {
+        //Todo: Get Saved Username and Password from Shared Preferences
+        //https://github.com/flutter/plugins/tree/master/packages/shared_preferences
+        String savedUsername = "Test";
+        String savedPassword = "Test";
+
+        tryLogin(savedUsername, savedPassword);
+      } else {
+        // Navigator.of(context).pop();
+      }
     });
-
-    if (_authorized.contains('Authorized')) {
-      //Todo: Get Saved Username and Password from Shared Preferences
-      //https://github.com/flutter/plugins/tree/master/packages/shared_preferences
-      String savedUsername = "Test";
-      String savedPassword = "Test";
-
-      tryLogin(savedUsername, savedPassword);
-    }
-  }
-
-  goToVerifyPinCode() async {
-    Navigator.push(
-      context,
-      new MaterialPageRoute(builder: (context) => new PinCodeVerify()),
-    );
-  }
-
-  goToCreatePinCode() async {
-    Navigator.push(
-      context,
-      new MaterialPageRoute(builder: (context) => new PinCodeCreate()),
-    );
   }
 
   @override
@@ -248,7 +299,7 @@ class LoginPageState extends State<LoginPage> {
                               child: new Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: new RaisedButton(
-                                  onPressed: goToCreatePinCode,
+                                  onPressed: null,
                                   child: new Text('Create Pin'),
                                 ),
                               ),
@@ -257,7 +308,7 @@ class LoginPageState extends State<LoginPage> {
                               child: new Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: new RaisedButton(
-                                  onPressed: goToVerifyPinCode,
+                                  onPressed: null,
                                   child: new Text('Verify Pin'),
                                 ),
                               ),

@@ -19,10 +19,10 @@ EXTERNAL SOURCES:
     :path: Pods/.symlinks/plugins/shared_preferences-0.4.0/ios
 
 SPEC CHECKSUMS:
-  Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
-  local_auth: dca7d49d2228a53db258478ee98ee19402ff0c49
-  shared_preferences: 5a1d487c427ee18fcd3ea1f2a131569481834b53
+  Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
+  local_auth: 17f985934bb4ab2637431e5b3fe1b2d6698d2051
+  shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
 
 PODFILE CHECKSUM: 793ca17cc5488c2bdeb7f2f95b973a070492cf02
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.3.1
