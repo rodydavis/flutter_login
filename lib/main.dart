@@ -51,6 +51,15 @@ class LoginPageState extends State<LoginPage> {
     );
     _scaffoldKey.currentState.showSnackBar(snackbar);
     await tryLogin(_username, _password);
+    if (globals.isLoggedIn) {
+      await showAlertPopup();
+      await saveData(_usePinCode);
+      if (_usePinCode) {
+        navigateToScreen('Create Pin');
+      } else {
+        navigateToScreen('Home');
+      }
+    }
     _scaffoldKey.currentState.hideCurrentSnackBar();
   }
 
@@ -118,14 +127,6 @@ class LoginPageState extends State<LoginPage> {
       prefs.setString('userUsername', username);
       prefs.setString('userPassword', password);
       prefs.setString('userToken', globals.token);
-
-      await showAlertPopup();
-      await saveData(_usePinCode);
-      if (_usePinCode) {
-        navigateToScreen('Create Pin');
-      } else {
-        navigateToScreen('Home');
-      }
     } else {
       print("Invalid Token!");
       globals.isLoggedIn = false;
@@ -207,6 +208,8 @@ class LoginPageState extends State<LoginPage> {
 
   String _authorized = 'Not Authorized';
   Future<Null> goToBiometrics() async {
+    String username;
+    String password;
     final LocalAuthentication auth = new LocalAuthentication();
     bool authenticated = false;
     try {
@@ -227,12 +230,23 @@ class LoginPageState extends State<LoginPage> {
         //https://github.com/flutter/plugins/tree/master/packages/shared_preferences
         String savedUsername = "Test";
         String savedPassword = "Test";
-
-        tryLogin(savedUsername, savedPassword);
-      } else {
-        // Navigator.of(context).pop();
+        //Todo: Get Username and Password from Shared Preferences
+        username = savedUsername;
+        password = savedPassword;
       }
     });
+    if (authenticated) {
+      await tryLogin(username, password);
+      if (globals.isLoggedIn) {
+        navigateToScreen('Home');
+      } else {
+        globals.Utility.showAlertPopup(
+            context, "Info", "Login Failed", "\nPlease Try Logging In Again");
+      }
+    } else {
+      globals.Utility.showAlertPopup(
+          context, "Info", "Login Failed", "\nPlease Try Biometrics Again");
+    }
   }
 
   @override
