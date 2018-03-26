@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'globals.dart' as globals;
 import 'lockedscreen/home.dart';
-import 'authentication/pincode_verify.dart';
-import 'authentication/pincode_create.dart';
+import 'pincode/pincode_verify.dart';
+import 'pincode/pincode_create.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -132,7 +132,7 @@ class LoginPageState extends State<LoginPage> {
       globals.isLoggedIn = false;
       globals.error = "Check Username and Password!";
       globals.Utility.showAlertPopup(
-          context, "Info", "Please Try Logging In Again!", globals.error);
+          context, "Info", "Please Try Logging In Again! \n" + globals.error);
     }
   }
 
@@ -241,11 +241,11 @@ class LoginPageState extends State<LoginPage> {
         navigateToScreen('Home');
       } else {
         globals.Utility.showAlertPopup(
-            context, "Info", "Login Failed", "\nPlease Try Logging In Again");
+            context, "Info", "Login Failed\nPlease Try Logging In Again");
       }
     } else {
       globals.Utility.showAlertPopup(
-          context, "Info", "Login Failed", "\nPlease Try Biometrics Again");
+          context, "Info", "Login Failed\nPlease Try Biometrics Again");
     }
   }
 

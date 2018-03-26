@@ -19,7 +19,7 @@ String avatar = "https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.
 
 class Utility {
 
-  static Future<Null> showAlertPopup(BuildContext context, String title, String detail1, String detail2) async {
+  static Future<Null> showAlertPopup(BuildContext context, String title, String detail) async {
     return showDialog<Null>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -28,8 +28,7 @@ class Utility {
         content: new SingleChildScrollView(
           child: new ListBody(
             children: <Widget>[
-              new Text(detail1),
-              new Text(detail2),
+              new Text(detail),
             ],
           ),
         ),
