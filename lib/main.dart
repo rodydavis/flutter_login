@@ -24,7 +24,7 @@ class LoginPageState extends State<LoginPage> {
 
   String _username;
   String _password;
-  bool _usePinCode;
+  bool _usePinCode = false;
 
   Future<Null> _submit() async {
     final form = formKey.currentState;
@@ -52,8 +52,8 @@ class LoginPageState extends State<LoginPage> {
     _scaffoldKey.currentState.showSnackBar(snackbar);
     await tryLogin(_username, _password);
     if (globals.isLoggedIn) {
-      await showAlertPopup();
-      await saveData(_usePinCode);
+      // await showAlertPopup();
+      // await saveData(_usePinCode);
       if (_usePinCode) {
         navigateToScreen('Create Pin');
       } else {
@@ -65,32 +65,11 @@ class LoginPageState extends State<LoginPage> {
 
   Future<bool> _loginRequest(String username, String password) async {
     String result = "";
-//      var mapData = new Map();
-//      mapData["username"] = "" + _username;
-//      mapData["password"] = "" + _password;
-//      String jsonData = JSON.encode(mapData);
-//      String encodedParams = Uri.encodeFull(jsonData);
-//      encodedParams = encodedParams.replaceAll(new RegExp(':'), '%3A');
-//      encodedParams = encodedParams.replaceAll(new RegExp(','), '%2C');
-//      encodedParams = encodedParams.replaceAll(new RegExp('@'), '%40');
-//      encodedParams = encodedParams.replaceAll(new RegExp('#'), '%23');
-//      print("PARAMS: " + jsonData);
-//      globals.domain = _companycode;
-//      result = await globals.Utility.getData("post", "login", "signin", encodedParams, globals.token);
-    result = await globals.Utility.getData("", "", "", "", "");
+    result = await globals.Utility.getData("");
 
     //Decode Data
     try {
       Map decoded = JSON.decode(result);
-//        for (var item in decoded['data']) {
-//          print(item["data"]['id'].toString());
-//          print(item["data"]['first_name'].toString());
-//          print(item["data"]['last_name'].toString());
-//          print(item["data"]['avatar'].toString());
-//
-//          globals.token = "" + item['id'].toString();
-////          globals.error = "" + item['id'].toString();
-//        }
       globals.id = decoded["data"]['id'].toString();
       globals.firstname = decoded["data"]['first_name'].toString();
       globals.lastname = decoded["data"]['last_name'].toString();
@@ -116,10 +95,6 @@ class LoginPageState extends State<LoginPage> {
     if (globals.token != 'null') {
       print("Valid Token!");
       globals.isLoggedIn = true;
-
-      //  SharedPreferences prefs = await SharedPreferences.getInstance();
-      // int counter = (prefs.getInt('counter') ?? 0) + 1;
-      // prefs.setBool('usePinCode', false);
 
       //Save Username and Password to Shared Preferences
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -224,6 +199,7 @@ class LoginPageState extends State<LoginPage> {
 
     setState(() {
       _authorized = authenticated ? 'Authorized' : 'Not Authorized';
+      print(_authorized);
 
       if (authenticated) {
         //Todo: Get Saved Username and Password from Shared Preferences

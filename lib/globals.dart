@@ -44,8 +44,9 @@ class Utility {
     );
   }
 
-  static Future<String> getData(String calltypeParm, String modParm, String actionParm, String paramsParm, String fooParm) async {
+  static Future<String> getData(String params) async {
     var requestURL = apiURL;
+    requestURL = requestURL + params;
 //    requestURL = requestURL + "calltype=" + calltypeParm;
 //    requestURL = requestURL + "&mod=" + modParm;
 //    requestURL = requestURL + "&?action=" + actionParm;

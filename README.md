@@ -1,6 +1,6 @@
 # Flutter Login Example
 
-This example uses a ScrollView, JSON Rest API, Navigation, Alert Pop Up, Progress Indicator, Globals, Images in a shared asset folder, and 100% Shared Code. Now with the ability to create a new pin code, verify existing one, login with FaceID, TouchID, and Fingerprint Reader on Android. 
+This example uses a ScrollView, JSON Rest API, Navigation, Alert Pop Up, Progress Indicator, Globals, Images in a shared asset folder, and 100% Shared Code. Now with the ability to login with FaceID, TouchID, and Fingerprint Reader on Android. 
 
 ## Getting Started
 
@@ -47,14 +47,14 @@ app resumes.
 
 ## Screenshots
 <p align="center">
-  <img src="https://github.com/AppleEducate/flutter_login/blob/1.1.0-beta/Screenshots/android_screenshot.png" width="350"/>
+  <img src="https://github.com/AppleEducate/flutter_login/blob/master/Screenshots/android_screenshot.png" width="350"/>
   <img src="https://github.com/AppleEducate/flutter_login/blob/master/Screenshots/ios_screenshot.png" width="350"/>
 </p>
 
-### Pin and Fingerprint Reader
+### Fingerprint Reader
 <p align="center">
-  <img src="https://github.com/AppleEducate/flutter_login/blob/1.1.0-beta/Screenshots/android_pin.png" width="350"/>
-  <img src="https://github.com/AppleEducate/flutter_login/blob/1.1.0-beta/Screenshots/android_fingerprint.png" width="350"/>
+  <img src="https://github.com/AppleEducate/flutter_login/blob/master/Screenshots/ios_fingerprint.JPG" width="350"/>
+  <img src="https://github.com/AppleEducate/flutter_login/blob/master/Screenshots/android_fingerprint.png" width="350"/>
 </p>
 
 ## Built With
