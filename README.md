@@ -51,7 +51,7 @@ app resumes.
   <img src="https://github.com/AppleEducate/flutter_login/blob/master/Screenshots/ios_screenshot.png" width="350"/>
 </p>
 
-### Fingerprint Reader
+### Fingerprint Reader and TouchID/FaceID
 <p align="center">
   <img src="https://github.com/AppleEducate/flutter_login/blob/master/Screenshots/ios_fingerprint.JPG" width="350"/>
   <img src="https://github.com/AppleEducate/flutter_login/blob/master/Screenshots/android_fingerprint.png" width="350"/>
