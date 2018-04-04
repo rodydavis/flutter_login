@@ -2,21 +2,27 @@ PODS:
   - Flutter (1.0.0)
   - local_auth (0.0.1):
     - Flutter
+  - shared_preferences (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Pods/.symlinks/flutter/ios`)
   - local_auth (from `Pods/.symlinks/plugins/local_auth-0.2.0/ios`)
+  - shared_preferences (from `Pods/.symlinks/plugins/shared_preferences-0.4.0/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Pods/.symlinks/flutter/ios
   local_auth:
     :path: Pods/.symlinks/plugins/local_auth-0.2.0/ios
+  shared_preferences:
+    :path: Pods/.symlinks/plugins/shared_preferences-0.4.0/ios
 
 SPEC CHECKSUMS:
   Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
   local_auth: dca7d49d2228a53db258478ee98ee19402ff0c49
+  shared_preferences: 5a1d487c427ee18fcd3ea1f2a131569481834b53
 
-PODFILE CHECKSUM: 793ca17cc5488c2bdeb7f2f95b973a070492cf02
+PODFILE CHECKSUM: b2c129b6872318c0be6692b58d0cee8febe28cf9
 
 COCOAPODS: 1.4.0
