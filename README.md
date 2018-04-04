@@ -47,8 +47,8 @@ app resumes.
 
 ## Screenshots
 <p align="center">
-  <img src="https://github.com/AppleEducate/flutter_login/blob/master/Screenshots/android_screenshot.png" width="350"/>
-  <img src="https://github.com/AppleEducate/flutter_login/blob/master/Screenshots/ios_screenshot.png" width="350"/>
+  <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/ios_login.PNG" width="350"/>
+  <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/android_login.png"/>
 </p>
 
 ### Fingerprint Reader and TouchID/FaceID
