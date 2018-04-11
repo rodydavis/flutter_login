@@ -46,7 +46,6 @@ to the Dart app. If set to true, the plugin will retry authenticating when the
 app resumes.
 
 ## Screenshots
- <img src="https://appleeducate.github.io/flutter_login/screenshots/IMG_0004.PNG" width="350"/>
 <p align="center">
   <img src="https://github.com/AppleEducate/flutter_login/blob/1.1.0-beta/Screenshots/android_screenshot.png" width="350"/>
   <img src="https://github.com/AppleEducate/flutter_login/blob/master/Screenshots/ios_screenshot.png" width="350"/>
