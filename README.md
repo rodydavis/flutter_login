@@ -89,3 +89,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * https://github.com/bramvbilsen/Flutter-HTTP-Requests-REST-api
 * https://github.com/Solido/awesome-flutter
 * https://reqres.in
+* https://github.com/GeekyAnts/FlatApp-Flutter
