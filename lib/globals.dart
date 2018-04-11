@@ -15,11 +15,12 @@ String error = "";
 String id = "0";
 String firstname = "Test";
 String lastname = "Test";
-String avatar = "https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg";
+String avatar =
+    "https://s3.amazonaws.com/uifaces/faces/twitter/josephstein/128.jpg";
 
 class Utility {
-
-  static Future<Null> showAlertPopup(BuildContext context, String title, String detail) async {
+  static Future<Null> showAlertPopup(
+      BuildContext context, String title, String detail) async {
     return showDialog<Null>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -68,12 +69,26 @@ class Utility {
           result = 'Error Getting Data';
         }
       } else {
-        result = 'Error getting IP address:\nHttp status ${response.statusCode}';
+        result =
+            'Error getting IP address:\nHttp status ${response.statusCode}';
       }
     } catch (exception) {
       result = 'Failed getting IP address';
     }
     print("Result: " + result);
     return result;
+  }
+
+  static Widget newTextButton(String title, VoidCallback onPressed) {
+    return new FlatButton(
+      child: new Text(title,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+              color: Colors.black,
+              fontSize: 14.0,
+              fontFamily: "Roboto",
+              fontWeight: FontWeight.bold)),
+      onPressed: onPressed,
+    );
   }
 }
