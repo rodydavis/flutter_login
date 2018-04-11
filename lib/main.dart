@@ -3,12 +3,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'globals.dart' as globals;
+import 'package:flutter_login/globals.dart' as globals;
 import 'lockedscreen/home.dart';
 import 'pincode/pincode_verify.dart';
 import 'pincode/pincode_create.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'components.dart';
 
 void main() {
   runApp(new MaterialApp(home: new LoginPage()));
@@ -26,16 +27,24 @@ class LoginPageState extends State<LoginPage> {
   String _password;
   bool _usePinCode = false;
 
-  Future<Null> _submit() async {
-    final form = formKey.currentState;
-
-    if (form.validate()) {
+  bool autovalidate = false;
+   void _handleSubmitted() {
+    final FormState form = formKey.currentState;
+    if (!form.validate()) {
+      autovalidate = true; // Start validating on every change.
+      showInSnackBar('Please fix the errors in red before submitting.');
+        setState(() {
+        globals.isLoggedIn = false;
+      });
+    } else {
       form.save();
-
-      // Email & password matched our validation rules
-      // and are saved to _email and _password fields.
-      _performLogin();
+       _performLogin();
     }
+  }
+
+  void showInSnackBar(String value) {
+    _scaffoldKey.currentState
+        .showSnackBar(new SnackBar(content: new Text(value)));
   }
 
   void _performLogin() async {
@@ -94,7 +103,9 @@ class LoginPageState extends State<LoginPage> {
 
     if (globals.token != 'null') {
       print("Valid Token!");
-      globals.isLoggedIn = true;
+      setState(() {
+        globals.isLoggedIn = true;
+      });
 
       //Save Username and Password to Shared Preferences
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -104,7 +115,9 @@ class LoginPageState extends State<LoginPage> {
       prefs.setString('userToken', globals.token);
     } else {
       print("Invalid Token!");
-      globals.isLoggedIn = false;
+      setState(() {
+        globals.isLoggedIn = false;
+      });
       globals.error = "Check Username and Password!";
       globals.Utility.showAlertPopup(
           context, "Info", "Please Try Logging In Again! \n" + globals.error);
@@ -182,7 +195,7 @@ class LoginPageState extends State<LoginPage> {
   }
 
   String _authorized = 'Not Authorized';
-  Future<Null> goToBiometrics() async {
+  Future<Null> _goToBiometrics() async {
     String username;
     String password;
     final LocalAuthentication auth = new LocalAuthentication();
@@ -225,6 +238,22 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
+  void newAccount() {
+    Navigator.of(context).push(new MaterialPageRoute<Null>(
+        builder: (BuildContext context) {
+          return new NewAccountPage();
+        },
+        fullscreenDialog: true));
+  }
+
+  void needHelp() {
+    Navigator.of(context).push(new MaterialPageRoute<Null>(
+        builder: (BuildContext context) {
+          return new HelpPage();
+        },
+        fullscreenDialog: true));
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -233,53 +262,340 @@ class LoginPageState extends State<LoginPage> {
         title: new Text('Login Example'),
       ),
       body: new Container(
+        color: Colors.grey[300],
         child: new ListView(
           physics: new AlwaysScrollableScrollPhysics(),
           key: new PageStorageKey("Divider 1"),
           children: <Widget>[
-            new Container(height: 8.0),
-            new Image.asset(
-              'images/login_contact.png',
-              height: 120.0,
-              width: 120.0,
-              fit: BoxFit.fitHeight,
+            new Container(
+              height: 20.0,
             ),
             new Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: new Form(
-                key: formKey,
+              padding: EdgeInsets.all(20.0),
+              child: new Card(
                 child: new Column(
-                  children: [
-                    new TextFormField(
-                      decoration: new InputDecoration(labelText: 'Username'),
-                      validator: (val) =>
-                          val.length < 1 ? 'Username Required' : null,
-                      onSaved: (val) => _username = val,
-                      obscureText: false,
-                    ),
-                    new TextFormField(
-                      decoration: new InputDecoration(labelText: 'Password'),
-                      validator: (val) =>
-                          val.length < 1 ? 'Password Required' : null,
-                      onSaved: (val) => _password = val,
-                      obscureText: true,
-                    ),
-                    new Container(height: 20.0),
-                    new Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: new RaisedButton(
-                        onPressed: _submit,
-                        child: new Text('Login'),
-                      ),
+                  children: <Widget>[
+                    new Container(height: 30.0),
+                    new Icon(
+                      globals.isLoggedIn ? Icons.lock_open : Icons.lock_outline,
+                      size: 120.0,
                     ),
                     new Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: new RaisedButton(
-                        onPressed: goToBiometrics,
-                        child: new Text('Authenticate'),
+                      child: new Form(
+                        key: formKey,
+                        child: new Column(
+                          children: [
+                            new InputField(
+                              name: 'Username',
+                              hintText: 'Username or Email',
+                              textInputType: TextInputType.emailAddress,
+                              onEmpty: 'Username Required',
+                              icon: Icons.account_circle,
+                              obscureText: false,
+                               onSaved: (String value) {
+                                _username = value;
+                              },
+                            ),
+                            new Container(
+                              height: 10.0,
+                            ),
+                            new InputField(
+                              name: 'Password',
+                              hintText: 'Enter Password Here',
+                              textInputType: TextInputType.text,
+                              onEmpty: 'Password Required',
+                              icon: Icons.lock,
+                              obscureText: true,
+                               onSaved: (String value) {
+                                _password = value;
+                              },
+                            ),
+                            new Container(height: 5.0),
+                          ],
+                        ),
                       ),
                     ),
                   ],
+                ),
+              ),
+            ),
+            new Padding(
+              padding: EdgeInsets.all(20.0),
+              child: new Row(
+                children: <Widget>[
+                  new Expanded(
+                    child: new Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: new RaisedButton(
+                        color: Colors.blue,
+                        onPressed: _handleSubmitted,
+                        child: new Text('Login',
+                        style: new TextStyle(color: Colors.white),),
+                      ),
+                    ),
+                  ),
+                  new Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: new RaisedButton(
+                      color: Colors.redAccent[400],
+                      onPressed: _goToBiometrics,
+                      child: new Icon(
+                        Icons.fingerprint,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            new Padding(
+              padding: EdgeInsets.all(20.0),
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  new TextButton(name: "Create Account", onPressed: newAccount),
+                  new TextButton(name: "Need Help?", onPressed: needHelp),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class NewAccountPage extends StatefulWidget {
+  @override
+  NewAccountPageState createState() => new NewAccountPageState();
+}
+
+class NewAccountPageState extends State<NewAccountPage> {
+  final formKey = new GlobalKey<FormState>();
+  final _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  String _username;
+  String _email;
+  String _password;
+
+
+
+  void openTermsAndConditions() {
+    Navigator.of(context).push(new MaterialPageRoute<Null>(
+        builder: (BuildContext context) {
+          return new TermsConditionsPage();
+        },
+        fullscreenDialog: true));
+  }
+
+
+  bool autovalidate = false;
+   void _handleSubmitted() {
+    final FormState form = formKey.currentState;
+    if (!form.validate()) {
+      autovalidate = true; // Start validating on every change.
+      showInSnackBar('Please fix the errors in red before submitting.');
+    } else {
+      form.save();
+      Navigator.pop(context);
+    }
+  }
+
+  void showInSnackBar(String value) {
+    _scaffoldKey.currentState
+        .showSnackBar(new SnackBar(content: new Text(value)));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      key: _scaffoldKey,
+      appBar: new AppBar(
+        title: const Text('Create New Account'),
+      ),
+      body: new Container(
+        color: Colors.grey[300],
+        child: new ListView(
+          physics: new AlwaysScrollableScrollPhysics(),
+          key: new PageStorageKey("Divider 1"),
+          children: <Widget>[
+            new Container(
+              height: 20.0,
+            ),
+            new Padding(
+              padding: EdgeInsets.all(20.0),
+              child: new Card(
+                child: new Column(
+                  children: <Widget>[
+                    new Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: new Form(
+                        key: formKey,
+                        child: new Column(
+                          children: [
+                            new InputField(
+                              name: 'Username',
+                              hintText: 'Username or Email',
+                              textInputType: TextInputType.emailAddress,
+                              onEmpty: 'Username Required',
+                              icon: Icons.account_circle,
+                              obscureText: false,
+                              onSaved: (String value) {
+                                _username = value;
+                              },
+                            ),
+                            new Container(
+                              height: 10.0,
+                            ),
+                            new InputField(
+                              name: 'Email',
+                              hintText: 'Email a new Email',
+                              textInputType: TextInputType.emailAddress,
+                              onEmpty: 'Email Required',
+                              icon: Icons.email,
+                              obscureText: false,
+                              onSaved: (String value) {
+                                _email = value;
+                              },
+                            ),
+                            new Container(
+                              height: 10.0,
+                            ),
+                            new InputField(
+                              name: 'Password',
+                              hintText: 'Enter a new Password',
+                              textInputType: TextInputType.text,
+                              onEmpty: 'Password Required',
+                              icon: Icons.lock,
+                              obscureText: true,
+                              onSaved: (String value) {
+                                _password = value;
+                              },
+                            ),
+                            new Container(
+                              height: 10.0,
+                            ),
+                            new InputField(
+                              name: 'Password',
+                              hintText: 'Verify the new Password',
+                              textInputType: TextInputType.text,
+                              onEmpty: 'Password Required',
+                              icon: Icons.lock,
+                              obscureText: true,
+                               onSaved: (String value) {
+                                _password = value;
+                              },
+                            ),
+                            new Container(height: 5.0),
+                          ],
+                        ),
+                      ),
+                    ),
+                    new TextButton(
+                        name: "Terms and Conditions",
+                        onPressed: openTermsAndConditions),
+                  ],
+                ),
+              ),
+            ),
+            new Padding(
+              padding: EdgeInsets.all(20.0),
+              child: new Row(
+                children: <Widget>[
+                  new Expanded(
+                    child: new Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: new RaisedButton(
+                        color: Colors.blue,
+                        onPressed: _handleSubmitted,
+                        child: new Text(
+                          'Save',
+                          style: new TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class HelpPage extends StatefulWidget {
+  @override
+  HelpPageState createState() => new HelpPageState();
+}
+
+class HelpPageState extends State<HelpPage> {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: const Text('Help'),
+      ),
+      body: new Center(
+        child: new Column(
+          children: <Widget>[
+            new Padding(
+              padding: new EdgeInsets.all(10.0),
+              child: new Text(
+                '24/7 Customer Support',
+                textAlign: TextAlign.center,
+                style: new TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                ),
+              ),
+            ),
+            new Padding(
+              padding: new EdgeInsets.all(10.0),
+              child: new Text(
+                'Phone Support: 555-555-5555\n\nEmail: test@support.com\n\nGo to our website to chat now!\n\nhttp://www.yourwebsite.com/support',
+                textAlign: TextAlign.center,
+                style: new TextStyle(
+                  color: Colors.black,
+                  fontSize: 15.0,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class TermsConditionsPage extends StatefulWidget {
+  @override
+  TermsConditionsPageState createState() => new TermsConditionsPageState();
+}
+
+class TermsConditionsPageState extends State<TermsConditionsPage> {
+  String termsOfUse =
+      "UK website terms and conditions template \nWelcome to our website. If you continue to browse and use this website, you are agreeing to comply with and be bound by the following terms and conditions of use, which together with our privacy policy govern [business name]'s relationship with you in relation to this website. If you disagree with any part of these terms and conditions, please do not use our website.The term '[business name]' or 'us' or 'we' refers to the owner of the website whose registered office is [address]. Our company registration number is [company registration number and place of registration]. The term 'you' refers to the user or viewer of our website. \nThe use of this website is subject to the following terms of use: \nThe content of the pages of this website is for your general information and use only. It is subject to change without notice. \nYour use of this website and any dispute arising out of such use of the website is subject to the laws of England, Northern Ireland, Scotland and Wales.";
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: const Text('Terms and Conditions'),
+      ),
+      body: new Center(
+        child: new Column(
+          children: <Widget>[
+            new Padding(
+              padding: new EdgeInsets.all(10.0),
+              child: new Text(
+                termsOfUse,
+                textAlign: TextAlign.center,
+                style: new TextStyle(
+                  color: Colors.black,
+                  fontSize: 15.0,
                 ),
               ),
             ),

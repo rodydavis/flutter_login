@@ -10,6 +10,11 @@ Clone or Fork Project to get started.
 
 Flutter SDK, Android Studio or Other Compatible IDE.
 
+### Demo
+<p align="center">
+ <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/ezgif.com-video-to-gif.gif" width="450"/>
+</p>
+
 #### iOS Integration
 
 Note that this plugin works with both TouchID and FaceID. However, to use the latter,
@@ -47,14 +52,14 @@ app resumes.
 
 ## Screenshots
 <p align="center">
-  <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/ios_login.PNG" width="350"/>
-  <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/android_login.png"  width="350"/>
+  <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/IMG_0004.PNG" width="350"/>
+  <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/Screenshot_20180411-133707.png"  width="350"/>
 </p>
 
 ### Fingerprint Reader and TouchID/FaceID
 <p align="center">
-  <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/ios_fingerprint.JPG" width="350"/>
-  <img src="https://github.com/AppleEducate/flutter_login/blob/master/Screenshots/android_fingerprint.png" width="350"/>
+  <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/IMG_1413.jpg" width="350"/>
+  <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/Screenshot_20180411-133646.png" width="350"/>
 </p>
 
 ## Built With
