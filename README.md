@@ -12,7 +12,7 @@ Flutter SDK, Android Studio or Other Compatible IDE.
 
 ### Demo
 <p align="center">
- <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/ezgif.com-video-to-gif.gif" width="450"/>
+ <img src="https://appleeducate.github.io/flutter_login/screenshots/ezgif.com-video-to-gif.gif" width="450"/>
 </p>
 
 #### iOS Integration
