@@ -52,7 +52,7 @@ app resumes.
 
 ## Screenshots
 <p align="center">
-  <img src="//raw.githubusercontent.com/appleeducate.github.io/flutter_login/master/screenshots/Screenshot_20180411-133707.png" width="350"/>
+  <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/Screenshot_20180411-133707.png" width="350"/>
   <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/Screenshot_20180411-133707.png"  width="350"/>
 </p>
 
