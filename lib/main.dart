@@ -195,7 +195,7 @@ class LoginPageState extends State<LoginPage> {
   }
 
   String _authorized = 'Not Authorized';
-  Future<Null> goToBiometrics() async {
+  Future<Null> _goToBiometrics() async {
     String username;
     String password;
     final LocalAuthentication auth = new LocalAuthentication();
@@ -339,7 +339,7 @@ class LoginPageState extends State<LoginPage> {
                     padding: const EdgeInsets.all(5.0),
                     child: new RaisedButton(
                       color: Colors.redAccent[400],
-                      onPressed: goToBiometrics,
+                      onPressed: _goToBiometrics,
                       child: new Icon(
                         Icons.fingerprint,
                         color: Colors.white,
