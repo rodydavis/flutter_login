@@ -11,10 +11,11 @@ Clone or Fork Project to get started.
 Flutter SDK, Android Studio or Other Compatible IDE.
 
 ### Demo
+https://appleeducate.github.io/flutter_login/screenshots/ezgif.com-video-to-gif.gif
 <p align="center">
  <img src="https://appleeducate.github.io/flutter_login/screenshots/ezgif.com-video-to-gif.gif" width="450"/>
 </p>
-https://appleeducate.github.io/flutter_login/screenshots/ezgif.com-video-to-gif.gif
+
 
 #### iOS Integration
 
