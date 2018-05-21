@@ -28,17 +28,17 @@ class LoginPageState extends State<LoginPage> {
   bool _usePinCode = false;
 
   bool autovalidate = false;
-   void _handleSubmitted() {
+  void _handleSubmitted() {
     final FormState form = formKey.currentState;
     if (!form.validate()) {
       autovalidate = true; // Start validating on every change.
       showInSnackBar('Please fix the errors in red before submitting.');
-        setState(() {
+      setState(() {
         globals.isLoggedIn = false;
       });
     } else {
       form.save();
-       _performLogin();
+      _performLogin();
     }
   }
 
@@ -286,30 +286,26 @@ class LoginPageState extends State<LoginPage> {
                         key: formKey,
                         child: new Column(
                           children: [
-                            new InputField(
-                              name: 'Username',
-                              hintText: 'Username or Email',
-                              textInputType: TextInputType.emailAddress,
-                              onEmpty: 'Username Required',
-                              icon: Icons.account_circle,
+                            new TextFormField(
+                              decoration:
+                                  new InputDecoration(labelText: 'Username'),
+                              validator: (val) =>
+                                  val.length < 1 ? 'Username Required' : null,
+                              onSaved: (val) => _username = val,
                               obscureText: false,
-                               onSaved: (String value) {
-                                _username = value;
-                              },
+                              keyboardType: TextInputType.text,
+                              autocorrect: false,
                             ),
-                            new Container(
-                              height: 10.0,
-                            ),
-                            new InputField(
-                              name: 'Password',
-                              hintText: 'Enter Password Here',
-                              textInputType: TextInputType.text,
-                              onEmpty: 'Password Required',
-                              icon: Icons.lock,
+                            new Container(height: 10.0),
+                            new TextFormField(
+                              decoration:
+                                  new InputDecoration(labelText: 'Password'),
+                              validator: (val) =>
+                                  val.length < 1 ? 'Password Required' : null,
+                              onSaved: (val) => _password = val,
                               obscureText: true,
-                               onSaved: (String value) {
-                                _password = value;
-                              },
+                              keyboardType: TextInputType.text,
+                              autocorrect: false,
                             ),
                             new Container(height: 5.0),
                           ],
@@ -330,8 +326,10 @@ class LoginPageState extends State<LoginPage> {
                       child: new RaisedButton(
                         color: Colors.blue,
                         onPressed: _handleSubmitted,
-                        child: new Text('Login',
-                        style: new TextStyle(color: Colors.white),),
+                        child: new Text(
+                          'Login',
+                          style: new TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
@@ -379,8 +377,6 @@ class NewAccountPageState extends State<NewAccountPage> {
   String _email;
   String _password;
 
-
-
   void openTermsAndConditions() {
     Navigator.of(context).push(new MaterialPageRoute<Null>(
         builder: (BuildContext context) {
@@ -389,9 +385,8 @@ class NewAccountPageState extends State<NewAccountPage> {
         fullscreenDialog: true));
   }
 
-
   bool autovalidate = false;
-   void _handleSubmitted() {
+  void _handleSubmitted() {
     final FormState form = formKey.currentState;
     if (!form.validate()) {
       autovalidate = true; // Start validating on every change.
@@ -434,58 +429,52 @@ class NewAccountPageState extends State<NewAccountPage> {
                         key: formKey,
                         child: new Column(
                           children: [
-                            new InputField(
-                              name: 'Username',
-                              hintText: 'Username or Email',
-                              textInputType: TextInputType.emailAddress,
-                              onEmpty: 'Username Required',
-                              icon: Icons.account_circle,
+                            new TextFormField(
+                              decoration:
+                                  new InputDecoration(labelText: 'Username'),
+                              validator: (val) =>
+                                  val.length < 1 ? 'Username Required' : null,
+                              onSaved: (val) => _username = val,
                               obscureText: false,
-                              onSaved: (String value) {
-                                _username = value;
-                              },
+                              keyboardType: TextInputType.text,
+                              autocorrect: false,
                             ),
                             new Container(
                               height: 10.0,
                             ),
-                            new InputField(
-                              name: 'Email',
-                              hintText: 'Email a new Email',
-                              textInputType: TextInputType.emailAddress,
-                              onEmpty: 'Email Required',
-                              icon: Icons.email,
-                              obscureText: false,
-                              onSaved: (String value) {
-                                _email = value;
-                              },
-                            ),
-                            new Container(
-                              height: 10.0,
-                            ),
-                            new InputField(
-                              name: 'Password',
-                              hintText: 'Enter a new Password',
-                              textInputType: TextInputType.text,
-                              onEmpty: 'Password Required',
-                              icon: Icons.lock,
+                            new TextFormField(
+                              decoration:
+                                  new InputDecoration(labelText: 'Email'),
+                              validator: (val) =>
+                                  val.length < 1 ? 'Email Required' : null,
+                              onSaved: (val) => _email = val,
                               obscureText: true,
-                              onSaved: (String value) {
-                                _password = value;
-                              },
+                              keyboardType: TextInputType.emailAddress,
+                              autocorrect: false,
+                            ),
+                            new Container(height: 10.0),
+                            new TextFormField(
+                              decoration:
+                                  new InputDecoration(labelText: 'Password'),
+                              validator: (val) =>
+                                  val.length < 1 ? 'Password Required' : null,
+                              onSaved: (val) => _password = val,
+                              obscureText: true,
+                              keyboardType: TextInputType.text,
+                              autocorrect: false,
                             ),
                             new Container(
                               height: 10.0,
                             ),
-                            new InputField(
-                              name: 'Password',
-                              hintText: 'Verify the new Password',
-                              textInputType: TextInputType.text,
-                              onEmpty: 'Password Required',
-                              icon: Icons.lock,
+                            new TextFormField(
+                              decoration:
+                                  new InputDecoration(labelText: 'Password'),
+                              validator: (val) =>
+                                  val.length < 1 ? 'Password Required' : null,
+                              onSaved: (val) => _password = val,
                               obscureText: true,
-                               onSaved: (String value) {
-                                _password = value;
-                              },
+                              keyboardType: TextInputType.text,
+                              autocorrect: false,
                             ),
                             new Container(height: 5.0),
                           ],
