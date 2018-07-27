@@ -52,15 +52,15 @@ to the Dart app. If set to true, the plugin will retry authenticating when the
 app resumes.
 
 ## Screenshots
-<p align="center"> 
-  <img src="https://appleeducate.github.io/flutter_login/screenshots/IMG_0004.PNG" width="350"/>
-  <img src="https://appleeducate.github.io/flutter_login/screenshots/Screenshot_20180411-133707.png"  width="350"/>
+<p align="center">
+  <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/home.png" width="350"/>
+  <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/ios_screenshot.png" width="350"/>
 </p>
 
-### Fingerprint Reader and TouchID/FaceID
+### Setting and Menu (Including Dark Mode)
 <p align="center">
-  <img src="https://appleeducate.github.io/flutter_login/screenshots/IMG_1413.jpg" width="350"/>
-  <img src="https://appleeducate.github.io/flutter_login/screenshots/Screenshot_20180411-133646.png" width="350"/>
+  <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/menu.png" width="350"/>
+  <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/settings.png" width="350"/>
 </p>
 
 ## Built With
