@@ -2,44 +2,82 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_login/globals.dart' as globals;
 
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
 
-class Home extends StatelessWidget {
+// State for managing fetching name data over HTTP
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Home"),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: globals.isDarkTheme ? null : Colors.white,
+        title: Text(
+          "Home",
+          textScaleFactor: globals.textScaleFactor,
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () => Navigator.pushNamed(context, '/settings'),
+          )
+        ],
       ),
-      body:  new Center(
-        child:
-            new Column(
-              children: <Widget>[
-                new Container(height: 20.0),
-                new Text('ID: ' + globals.id,
-                    style: new TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0,
+      drawer: globals.Utility.getMenuBar(context),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(height: 10.0),
+            globals.currentUser?.avatar != null
+                ? Center(
+                    child: Container(
+                      width: 120.0,
+                      height: 120.0,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        image: DecorationImage(
+                          image: NetworkImage(globals.currentUser?.avatar),
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(60.0)),
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 2.0,
+                        ),
+                      ),
                     ),
-                ),
-                new Container(height: 10.0),
-                new Text('First Name: ' + globals.firstname,
-                  style: new TextStyle(
-                    color: Colors.black,
-                    fontSize: 20.0,
+                  )
+                : Container(
+                    height: 0.0,
                   ),
-                ),
-                new Container(height: 10.0),
-                new Text('Last Name: ' + globals.lastname,
-                  style: new TextStyle(
-                    color: Colors.black,
-                    fontSize: 20.0,
-                  ),
-                ),
-                new Container(height: 10.0),
-                new Image.network(globals.avatar, fit: BoxFit.cover),
-              ],
-            )
+            ListTile(
+              title: Text('ID'),
+              subtitle: globals.currentUser?.id == null
+                  ? null
+                  : Text(
+                      globals.currentUser?.id.toString() ?? "",
+                    ),
+            ),
+            ListTile(
+              title: Text('First Name'),
+              subtitle: globals.currentUser?.firstname == null
+                  ? null
+                  : Text(
+                      globals.currentUser?.firstname.toString() ?? "",
+                    ),
+            ),
+            ListTile(
+              title: Text('Last Name'),
+              subtitle: globals.currentUser?.lastname == null
+                  ? null
+                  : Text(
+                      globals.currentUser?.lastname.toString() ?? "",
+                    ),
+            ),
+          ],
+        ),
       ),
     );
   }
