@@ -61,7 +61,7 @@ app resumes.
   <img src="https://github.com/AppleEducate/flutter_login/blob/master/Screenshots/ios_screenshot.png" width="350"/>
 </p>
 
-### Setting and Menu (Including Dark Mode)
+### Settings Page and Menu (Including Dark Mode)
 <p align="center">
   <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/menu.png" width="350"/>
   <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/settings.png" width="350"/>
