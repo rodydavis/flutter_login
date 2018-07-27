@@ -10,12 +10,6 @@ Clone or Fork Project to get started.
 
 Flutter SDK, Android Studio or Other Compatible IDE.
 
-### Demo
-<p align="center">
-<!--  <img src="https://appleeducate.github.io/flutter_login/screenshots/ezgif.com-video-to-gif.gif" width="450"/> -->
- <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/ezgif.com-video-to-gif.gif" width="350"/>
-</p>
-
 #### iOS Integration
 
 Note that this plugin works with both TouchID and FaceID. However, to use the latter,
@@ -54,7 +48,7 @@ app resumes.
 ## Screenshots
 <p align="center">
   <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/home.png" width="350"/>
-  <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/ios_screenshot.png" width="350"/>
+  <img src="https://github.com/AppleEducate/flutter_login/blob/master/Screenshots/ios_screenshot.png" width="350"/>
 </p>
 
 ### Setting and Menu (Including Dark Mode)
