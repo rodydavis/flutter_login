@@ -1,6 +1,6 @@
 name: flutter_login
 description: A new Flutter application.
-version: 1.0.2
+version: 1.0.3
 
 dependencies:
   flutter:
@@ -13,7 +13,7 @@ dependencies:
   flutter_whatsnew: "^0.0.5+1"
   get_version: ^0.0.4
   app_review: ^0.0.5
-  uuid: 1.0.0
+  uuid: 1.0.3
   dynamic_theme:
     git:
       url: git://github.com/Norbert515/dynamic_theme.git
