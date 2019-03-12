@@ -13,6 +13,7 @@ This example uses a ScrollView, JSON Rest API, Navigation, Alert Pop Up, Progres
 * Remember Me Toggle
 * Custom Theme
 * Scoped Model
+* Automatic Json using [json_serializable](https://flutter.dev/docs/development/data-and-backend/json)
 
 ## Getting Started
 
