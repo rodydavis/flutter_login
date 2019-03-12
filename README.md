@@ -6,11 +6,13 @@ This example uses a ScrollView, JSON Rest API, Navigation, Alert Pop Up, Progres
 * Auto Login
 * Enhanced Security with Bio
 * Menu and Logout
-* Dark Mode
+* Dark Mode and True Black
 * Settings Page
 * Auth Service
 * What's New Page
 * Remember Me Toggle
+* Custom Theme
+* Scoped Model
 
 ## Getting Started
 
