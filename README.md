@@ -55,10 +55,10 @@ if the user receives a phone call before they get a chance to authenticate. With
 to the Dart app. If set to true, the plugin will retry authenticating when the
 app resumes.
 
-## Screenshots
+## screenshots
 <p align="center">
   <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/home.png" width="350"/>
-  <img src="https://github.com/AppleEducate/flutter_login/blob/master/Screenshots/ios_screenshot.png" width="350"/>
+  <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/ios_screenshot.png" width="350"/>
 </p>
 
 ### Settings Page and Menu (Including Dark Mode)

@@ -1,0 +1,6 @@
+framework module get_version {
+  umbrella header "get_version-umbrella.h"
+
+  export *
+  module * { export * }
+}

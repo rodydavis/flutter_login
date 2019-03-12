@@ -1,65 +1,33 @@
 name: flutter_login
-description: A new Flutter application.
-version: 1.0.3
+description: A new Flutter application to demonstrate an auth flow.
+version: 1.1.0
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-
-  cupertino_icons: ^0.1.0
-  local_auth: ^0.2.1
-  shared_preferences: ^0.4.2
-  native_widgets: ^0.1.1+1
-  flutter_whatsnew: "^0.0.5+1"
-  get_version: ^0.0.4
-  app_review: ^0.0.5
-  uuid: 1.0.3
-  dynamic_theme:
-    git:
-      url: git://github.com/Norbert515/dynamic_theme.git
+  uuid: ^2.0.0
+  get_version: ^0.0.8+5
+  flutter_whatsnew: ^0.2.0+3
+  native_widgets: ^1.0.1
+  shared_preferences: ^0.5.1+1
+  local_auth: ^0.4.0+1
+  cupertino_icons: ^0.1.2
+  persist_theme: ^0.0.3+6
+  scoped_model: ^1.0.1
+  http: ^0.12.0+1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner: ^1.0.0
+  json_serializable: ^2.0.0
 
-
-# For information on the generic Dart part of this file, see the
-# following page: https://www.dartlang.org/tools/pub/pubspec
-
-# The following section is specific to Flutter.
 flutter:
-
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
   assets:
-   - images/login_contact.png
-
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.io/assets-and-images/#resolution-aware.
-
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.io/assets-and-images/#from-packages
-
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies, 
-  # see https://flutter.io/custom-fonts/#from-packages
+   - assets/images/login_contact.png
+   - CHANGELOG.md

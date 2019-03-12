@@ -13,26 +13,20 @@ if (flutterRoot == null) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    throw new GradleException("versionCode not found. Define flutter.versionCode in the local.properties file.")
+    flutterVersionCode = '1'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    throw new GradleException("versionName not found. Define flutter.versionName in the local.properties file.")
+    flutterVersionName = '1.0'
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-apply plugin: 'com.google.gms.google-services' 
-
-def keystorePropertiesFile = rootProject.file("key.properties")
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -44,9 +38,9 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.appleeducate.flutterlogin"
+        applicationId "com.appleeducate.flutter_login"
         minSdkVersion 16
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -66,8 +60,8 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }

@@ -1,84 +1,63 @@
-import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_login/globals.dart' as globals;
-import 'package:flutter_whatsnew/flutter_whatsnew.dart';
+import 'package:flutter_login/data/models/auth.dart';
+import 'package:persist_theme/persist_theme.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'components.dart';
 
-import 'lockedscreen/home.dart';
-import 'lockedscreen/settings.dart';
-import 'signin/auth_service.dart';
-import 'signin/changes.dart' as changes;
-import 'signin/newaccount.dart';
-import 'signin/signin.dart';
+import 'ui/lockedscreen/home.dart';
+import 'ui/lockedscreen/settings.dart';
+import 'ui/signin/newaccount.dart';
+import 'ui/signin/signin.dart';
 
-AuthService appAuth = new AuthService();
+void main() => runApp(MyApp());
 
-void main() async {
-  var prefs = await SharedPreferences.getInstance();
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
 
-  Widget _login = LoginPage(prefs: prefs);
-  Widget _home = Home();
-  // Set default home.
-  Widget _defaultHome = _login;
+class _MyAppState extends State<MyApp> {
+  final ThemeModel _model = ThemeModel();
+  final AuthModel _auth = new AuthModel();
 
-  globals.isDarkTheme = prefs.getBool('isDarkTheme') ?? false;
-
-  // Set Defaults
-  prefs.setBool('isDarkTheme', globals.isDarkTheme);
-
-  bool _bioAvaliable = await appAuth.biometricsAvaliable();
-  bool _ready = await appAuth.avaliable();
-  bool _result = await appAuth.login();
-
-  if (_ready &&
-      _result &&
-      (!_bioAvaliable || _bioAvaliable && await appAuth.biometrics())) {
-    _defaultHome = _home;
+  @override
+  void initState() {
+    try {
+      _auth.loadSettings();
+    } catch (e) {
+      print("Error Loading Settings: $e");
+    }
+    try {
+      _model.loadFromDisk();
+    } catch (e) {
+      print("Error Loading Theme: $e");
+    }
+    super.initState();
   }
 
-  runApp(DynamicTheme(
-      defaultBrightness: Brightness.light,
-      data: (brightness) => ThemeData(
-            primarySwatch: Colors.blue,
-            primaryColorBrightness:
-                globals.isDarkTheme ? Brightness.dark : Brightness.light,
-            brightness: brightness,
-          ),
-      themedWidgetBuilder: (context, theme) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Flutter Login',
-          theme: theme,
-          home: WhatsNewPage(
-            home: _defaultHome,
-            showOnVersionChange: true,
-            title: Text(
-              "What's New",
-              textScaleFactor: globals.textScaleFactor,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 22.0,
-                fontWeight: FontWeight.bold,
+  @override
+  Widget build(BuildContext context) {
+    return ScopedModel<ThemeModel>(
+        model: _model,
+        child: new ScopedModelDescendant<ThemeModel>(
+          builder: (context, child, theme) => ScopedModel<AuthModel>(
+                model: _auth,
+                child: MaterialApp(
+                  theme: theme.theme,
+                  home: new ScopedModelDescendant<AuthModel>(
+                      builder: (context, child, model) {
+                    if (model?.user != null) return Home();
+                    return LoginPage();
+                  }),
+                  routes: <String, WidgetBuilder>{
+                    "/login": (BuildContext context) => LoginPage(),
+                    "/menu": (BuildContext context) => Home(),
+                    "/home": (BuildContext context) => Home(),
+                    "/settings": (BuildContext context) => SettingsPage(),
+                    "/create": (BuildContext context) => CreateAccount(),
+                  },
+                ),
               ),
-            ),
-            buttonText: Text(
-              'Continue',
-              textScaleFactor: globals.textScaleFactor,
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-            items: changes.Updates.changelog(context),
-          ),
-          routes: <String, WidgetBuilder>{
-            "/login": (BuildContext context) => _login,
-            "/menu": (BuildContext context) => _home,
-            "/home": (BuildContext context) => _home,
-            "/settings": (BuildContext context) => SettingsPage(prefs: prefs),
-            "/create": (BuildContext context) => CreateAccount(prefs: prefs),
-          },
-        );
-      }));
+        ));
+  }
 }
