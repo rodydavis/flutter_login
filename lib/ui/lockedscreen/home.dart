@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:scoped_model/scoped_model.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants.dart';
 import '../../data/models/auth.dart';
@@ -9,7 +9,7 @@ import '../app/app_drawer.dart';
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _auth = ScopedModel.of<AuthModel>(context, rebuildOnChange: true);
+   final _auth = Provider.of<AuthModel>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
         title: Text(

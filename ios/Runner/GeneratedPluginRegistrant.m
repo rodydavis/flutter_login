@@ -3,11 +3,36 @@
 //
 
 #import "GeneratedPluginRegistrant.h"
+
+#if __has_include(<get_version/GetVersionPlugin.h>)
 #import <get_version/GetVersionPlugin.h>
+#else
+@import get_version;
+#endif
+
+#if __has_include(<local_auth/LocalAuthPlugin.h>)
 #import <local_auth/LocalAuthPlugin.h>
-#import <package_info/PackageInfoPlugin.h>
-#import <path_provider/PathProviderPlugin.h>
-#import <shared_preferences/SharedPreferencesPlugin.h>
+#else
+@import local_auth;
+#endif
+
+#if __has_include(<package_info/FLTPackageInfoPlugin.h>)
+#import <package_info/FLTPackageInfoPlugin.h>
+#else
+@import package_info;
+#endif
+
+#if __has_include(<path_provider/FLTPathProviderPlugin.h>)
+#import <path_provider/FLTPathProviderPlugin.h>
+#else
+@import path_provider;
+#endif
+
+#if __has_include(<shared_preferences/FLTSharedPreferencesPlugin.h>)
+#import <shared_preferences/FLTSharedPreferencesPlugin.h>
+#else
+@import shared_preferences;
+#endif
 
 @implementation GeneratedPluginRegistrant
 

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_login/data/models/auth.dart';
 import 'package:persist_theme/persist_theme.dart';
-import 'package:scoped_model/scoped_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 import 'ui/lockedscreen/home.dart';
 import 'ui/lockedscreen/settings.dart';
@@ -18,7 +17,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final ThemeModel _model = ThemeModel();
-  final AuthModel _auth = new AuthModel();
+  final AuthModel _auth = AuthModel();
 
   @override
   void initState() {
@@ -28,7 +27,7 @@ class _MyAppState extends State<MyApp> {
       print("Error Loading Settings: $e");
     }
     try {
-      _model.loadFromDisk();
+      _model.init();
     } catch (e) {
       print("Error Loading Theme: $e");
     }
@@ -37,27 +36,27 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModel<ThemeModel>(
-        model: _model,
-        child: new ScopedModelDescendant<ThemeModel>(
-          builder: (context, child, theme) => ScopedModel<AuthModel>(
-                model: _auth,
-                child: MaterialApp(
-                  theme: theme.theme,
-                  home: new ScopedModelDescendant<AuthModel>(
-                      builder: (context, child, model) {
-                    if (model?.user != null) return Home();
-                    return LoginPage();
-                  }),
-                  routes: <String, WidgetBuilder>{
-                    "/login": (BuildContext context) => LoginPage(),
-                    "/menu": (BuildContext context) => Home(),
-                    "/home": (BuildContext context) => Home(),
-                    "/settings": (BuildContext context) => SettingsPage(),
-                    "/create": (BuildContext context) => CreateAccount(),
-                  },
-                ),
-              ),
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider<ThemeModel>.value(value: _model),
+          ChangeNotifierProvider<AuthModel>.value(value: _auth),
+        ],
+        child: Consumer<ThemeModel>(
+          builder: (context, model, child) => MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: model.theme,
+            home: Consumer<AuthModel>(builder: (context, model, child) {
+              if (model?.user != null) return Home();
+              return LoginPage();
+            }),
+            routes: <String, WidgetBuilder>{
+              "/login": (BuildContext context) => LoginPage(),
+              "/menu": (BuildContext context) => Home(),
+              "/home": (BuildContext context) => Home(),
+              "/settings": (BuildContext context) => SettingsPage(),
+              "/create": (BuildContext context) => CreateAccount(),
+            },
+          ),
         ));
   }
 }

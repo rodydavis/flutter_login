@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_login/constants.dart';
 import 'package:flutter_login/data/models/auth.dart';
 import 'package:flutter_whatsnew/flutter_whatsnew.dart';
-import 'package:scoped_model/scoped_model.dart';
+import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _auth = ScopedModel.of<AuthModel>(context, rebuildOnChange: true);
+    final _auth = Provider.of<AuthModel>(context, listen: true);
     return Drawer(
       child: SafeArea(
         // color: Colors.grey[50],
@@ -41,23 +41,23 @@ class AppDrawer extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => WhatsNewPage.changelog(
-                          title: Text(
-                            "What's New",
-                            textScaleFactor: textScaleFactor,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          buttonText: Text(
-                            'Continue',
-                            textScaleFactor: textScaleFactor,
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
+                      title: Text(
+                        "What's New",
+                        textScaleFactor: textScaleFactor,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.bold,
                         ),
+                      ),
+                      buttonText: Text(
+                        'Continue',
+                        textScaleFactor: textScaleFactor,
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                     fullscreenDialog: true,
                   ),
                 );

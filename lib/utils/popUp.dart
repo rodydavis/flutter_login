@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:native_widgets/native_widgets.dart';
 
 void showAlertPopup(BuildContext context, String title, String detail) async {
   void showDemoDialog<T>({BuildContext context, Widget child}) {
@@ -12,13 +11,12 @@ void showAlertPopup(BuildContext context, String title, String detail) async {
 
   return showDemoDialog<Null>(
       context: context,
-      child: NativeDialog(
+      child: AlertDialog(
         title: Text(title),
         content: Text(detail),
-        actions: <NativeDialogAction>[
-          NativeDialogAction(
-              text: Text('OK'),
-              isDestructive: false,
+        actions: [
+          FlatButton(
+              child: Text('OK'),
               onPressed: () {
                 Navigator.pop(context);
               }),

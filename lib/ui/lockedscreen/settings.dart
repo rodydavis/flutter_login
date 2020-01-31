@@ -1,9 +1,9 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:native_widgets/native_widgets.dart';
 import 'package:persist_theme/persist_theme.dart';
-import 'package:scoped_model/scoped_model.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants.dart';
 import '../../data/models/auth.dart';
@@ -12,7 +12,7 @@ import '../../data/models/auth.dart';
 class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _auth = ScopedModel.of<AuthModel>(context, rebuildOnChange: true);
+    final _auth = Provider.of<AuthModel>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -27,26 +27,27 @@ class SettingsPage extends StatelessWidget {
             Container(
               height: 10.0,
             ),
-            ListTile(
-              leading: Icon(Icons.fingerprint),
-              title: Text(
-                'Enable Biometrics',
-                textScaleFactor: textScaleFactor,
+            if (!kIsWeb)
+              ListTile(
+                leading: Icon(Icons.fingerprint),
+                title: Text(
+                  'Enable Biometrics',
+                  textScaleFactor: textScaleFactor,
+                ),
+                subtitle: Platform.isIOS
+                    ? Text(
+                        'TouchID or FaceID',
+                        textScaleFactor: textScaleFactor,
+                      )
+                    : Text(
+                        'Fingerprint',
+                        textScaleFactor: textScaleFactor,
+                      ),
+                trailing: Switch.adaptive(
+                  onChanged: _auth.handleIsBioSetup,
+                  value: _auth.isBioSetup,
+                ),
               ),
-              subtitle: Platform.isIOS
-                  ? Text(
-                      'TouchID or FaceID',
-                      textScaleFactor: textScaleFactor,
-                    )
-                  : Text(
-                      'Fingerprint',
-                      textScaleFactor: textScaleFactor,
-                    ),
-              trailing: NativeSwitch(
-                onChanged: _auth.handleIsBioSetup,
-                value: _auth.isBioSetup,
-              ),
-            ),
             Divider(
               height: 20.0,
             ),
@@ -60,7 +61,7 @@ class SettingsPage extends StatelessWidget {
                 'Logout from the Main Menu',
                 textScaleFactor: textScaleFactor,
               ),
-              trailing: NativeSwitch(
+              trailing: Switch.adaptive(
                 onChanged: _auth.handleStayLoggedIn,
                 value: _auth.stayLoggedIn,
               ),

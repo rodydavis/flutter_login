@@ -1,17 +1,17 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:native_widgets/native_widgets.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
 
 import '../../constants.dart';
 import '../classes/user.dart';
-import '../web_client.dart';
 
-class AuthModel extends Model {
+class AuthModel extends ChangeNotifier {
   String errorMessage = "";
 
   bool _rememberMe = false;
@@ -79,7 +79,7 @@ class AuthModel extends Model {
       } catch (e) {
         print("User Not Found: $e");
       }
-      if (_useBio) {
+      if (!kIsWeb && _useBio) {
         if (await biometrics()) {
           _user = _savedUser;
         }
@@ -108,9 +108,9 @@ class AuthModel extends Model {
 
   Future<User> getInfo(String token) async {
     try {
-      var _data = await WebClient(User(token: token)).get(apiURL);
+      var _data = await http.get(apiURL);
       // var _json = json.decode(json.encode(_data));
-      var _newUser = User.fromJson(_data["data"]);
+      var _newUser = User.fromJson(json.decode(_data.body)["data"]);
       _newUser?.token = token;
       return _newUser;
     } catch (e) {

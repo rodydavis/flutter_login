@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:native_widgets/native_widgets.dart';
-import 'package:scoped_model/scoped_model.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants.dart';
 import '../../data/models/auth.dart';
@@ -31,7 +30,7 @@ class CreateAccountState extends State<CreateAccount> {
 
   @override
   Widget build(BuildContext context) {
-    final _auth = ScopedModel.of<AuthModel>(context, rebuildOnChange: true);
+    final _auth = Provider.of<AuthModel>(context, listen: true);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -78,7 +77,7 @@ class CreateAccountState extends State<CreateAccount> {
               ),
             ),
             ListTile(
-              title: NativeButton(
+              title: RaisedButton(
                 child: Text(
                   'Save',
                   textScaleFactor: textScaleFactor,
@@ -93,7 +92,7 @@ class CreateAccountState extends State<CreateAccount> {
                       duration: Duration(seconds: 30),
                       content: Row(
                         children: <Widget>[
-                          NativeLoadingIndicator(),
+                          CircularProgressIndicator(),
                           Text("  Signing Up...")
                         ],
                       ),
@@ -111,7 +110,7 @@ class CreateAccountState extends State<CreateAccount> {
                           duration: Duration(seconds: 3),
                           content: Row(
                             children: <Widget>[
-                              NativeLoadingIndicator(),
+                              CircularProgressIndicator(),
                               Text("  Signing Up...")
                             ],
                           ),

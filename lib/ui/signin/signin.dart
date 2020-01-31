@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:native_widgets/native_widgets.dart';
-import 'package:scoped_model/scoped_model.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../constants.dart';
 import '../../data/models/auth.dart';
@@ -52,7 +51,7 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final _auth = ScopedModel.of<AuthModel>(context, rebuildOnChange: true);
+    final _auth = Provider.of<AuthModel>(context, listen: true);
     return Scaffold(
       key: _scaffoldKey,
       body: SafeArea(
@@ -106,13 +105,13 @@ class LoginPageState extends State<LoginPage> {
                 'Remember Me',
                 textScaleFactor: textScaleFactor,
               ),
-              trailing: NativeSwitch(
+              trailing: Switch.adaptive(
                 onChanged: _auth.handleRememberMe,
                 value: _auth.rememberMe,
               ),
             ),
             ListTile(
-              title: NativeButton(
+              title: RaisedButton(
                 child: Text(
                   'Login',
                   textScaleFactor: textScaleFactor,
@@ -127,7 +126,7 @@ class LoginPageState extends State<LoginPage> {
                       duration: Duration(seconds: 30),
                       content: Row(
                         children: <Widget>[
-                          NativeLoadingIndicator(),
+                          CircularProgressIndicator(),
                           Text("  Logging In...")
                         ],
                       ),
@@ -172,7 +171,7 @@ class LoginPageState extends State<LoginPage> {
               //               },
               //       ),
             ),
-            NativeButton(
+            FlatButton(
               child: Text(
                 'Need an Account?',
                 textScaleFactor: textScaleFactor,
