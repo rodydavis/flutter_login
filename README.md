@@ -62,14 +62,14 @@ app resumes.
 
 ## screenshots
 <p align="center">
-  <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/home.png" width="350"/>
-  <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/ios_screenshot.png" width="350"/>
+  <img src="https://github.com/rodydavis/flutter_login/blob/master/screenshots/home.png" width="350"/>
+  <img src="https://github.com/rodydavis/flutter_login/blob/master/Screenshots/ios_screenshot.png" width="350"/>
 </p>
 
 ### Settings Page and Menu (Including Dark Mode)
 <p align="center">
-  <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/menu.png" width="350"/>
-  <img src="https://github.com/AppleEducate/flutter_login/blob/master/screenshots/settings.png" width="350"/>
+  <img src="https://github.com/rodydavis/flutter_login/blob/master/screenshots/menu.png" width="350"/>
+  <img src="https://github.com/rodydavis/flutter_login/blob/master/screenshots/settings.png" width="350"/>
 </p>
 
 ## Built With
@@ -87,7 +87,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Rody Davis** - *Initial work* - [Rody Davis](https://github.com/AppleEducate)
+* **Rody Davis** - *Initial work* - [Rody Davis](https://github.com/rodydavis)
 
 ## License
 
