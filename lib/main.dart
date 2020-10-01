@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
         ],
         child: Consumer<ThemeModel>(
           builder: (context, model, child) => MaterialApp(
-            debugShowCheckedModeBanner: false,
+            
             theme: model.theme,
             home: Consumer<AuthModel>(builder: (context, model, child) {
               if (model?.user != null) return Home();
