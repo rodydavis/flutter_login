@@ -39,9 +39,9 @@ class LoginPageState extends State<LoginPage> {
     try {
       SharedPreferences _prefs = await SharedPreferences.getInstance();
       var _username = _prefs.getString("saved_username") ?? "";
-      var _remeberMe = _prefs.getBool("remember_me") ?? false;
+      var _rememberMe = _prefs.getBool("remember_me") ?? false;
 
-      if (_remeberMe) {
+      if (_rememberMe) {
         _controllerUsername.text = _username ?? "";
       }
     } catch (e) {
